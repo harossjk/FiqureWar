@@ -51,6 +51,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_RANGECOLLISION);
 				c_ControllerList.c_eventHandler.SendCollisionEvent(m_unitObject, col.gameObject);
+				
 			}
 		}
 		else if (col.gameObject.tag.Equals("User_Range"))
@@ -60,6 +61,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_RANGECOLLISION);
 				c_ControllerList.c_eventHandler.SendCollisionEvent(m_unitObject, col.gameObject);
+				
 			}
 		}
 	}
@@ -69,7 +71,18 @@ public class Range_Collider_Check  : MonoBehaviour{
 	{
 		if (colObj.tag == "Enemy_Range")
 		{
-			//범위충돌시는 전투 발생 및 hp 깎기 및 유닛 파괴
+			if(targetObj.gameObject.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
+			{
+				targetObj.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_ATTACK);
+			}
 		}
+		else if (colObj.tag == "User_Range")
+		{
+			if (targetObj.gameObject.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+			{
+				targetObj.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_ATTACK);
+			}
+		}
+
 	}
 }

@@ -15,9 +15,6 @@ public class UnitCreater : MonoBehaviour
 	void Start()
 	{
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
-
-
-
 		if (m_mapcreater == null) return;
 	}
 

@@ -30,6 +30,7 @@ public class Creature_p : MonoBehaviour
 	#endregion
 
 	#region user unit setting 
+
 	private int m_userUnitHP = 0;
 	private int m_userUnitAttack = 0;
 	private float m_userUnitMoveSpeed = 0;
@@ -70,6 +71,7 @@ public class Creature_p : MonoBehaviour
 	{
 		m_userUnitAttackSpeed = unitAttackSpeed;
 	}
+
 	#endregion
 
 	#region minionTeam Type
