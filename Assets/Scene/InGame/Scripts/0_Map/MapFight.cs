@@ -22,8 +22,8 @@ public class MapFight : MonoBehaviour {
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
 		if (m_mapcreater == null) return;
 
-		Destroy(m_ObjectList.m_mapGameObject.GetHeroMapTile(), 30);
 
+		Destroy(m_ObjectList.m_mapGameObject.GetHeroMapTile(), 30);
 		m_mapcreater.SetIsHeroMakeCheck(false);
 	}
 
@@ -61,7 +61,7 @@ public class MapFight : MonoBehaviour {
 		if(isCheck)
 		{
 			comRandom = Random.Range(1, 4);
-		//	print(comRandom);
+
 			com = comRandom;
 			print(comRandom);
 
@@ -88,6 +88,7 @@ public class MapFight : MonoBehaviour {
 		}
 		isCheck = false;
 		
+
 	}
 
 	private void Seissors_Rock_Paper(string type)
