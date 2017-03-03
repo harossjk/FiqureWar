@@ -35,6 +35,16 @@ public class Creature_p : MonoBehaviour
 	private int m_userUnitAttack = 0;
 	private float m_userUnitMoveSpeed = 0;
 	private float m_userUnitAttackSpeed = 0;
+	private int m_enemyUnitHP = 0;
+
+	public int GetEnemyUnitHP()
+	{
+		return m_enemyUnitHP;
+	}
+	public void SetEnemyUnitHP(int unitHP)
+	{
+		m_enemyUnitHP = unitHP;
+	}
 
 	public int GetUserUnitHP()
 	{
@@ -92,6 +102,7 @@ public class Creature_p : MonoBehaviour
 	}
 	#endregion
 
+
 	#region waypoint 
 	private int m_UsercurWayPointIndex = -1;
 
@@ -141,10 +152,6 @@ public class Creature_p : MonoBehaviour
 		return m_CollisionType;
 	}
 
-
-
-
-
 	private CommonTypes.GameStatusType m_gameStatusType;
 	
 	public void SetGameStatusType(CommonTypes.GameStatusType type)
@@ -154,6 +161,17 @@ public class Creature_p : MonoBehaviour
 	public CommonTypes.GameStatusType GetGameStatusType()
 	{
 		return m_gameStatusType;
+	}
+
+	private CommonTypes.AttackType m_attackType;
+
+	public void SetAttackType(CommonTypes.AttackType type)
+	{
+		m_attackType = type;
+	}
+	public CommonTypes.AttackType GetAttackType()
+	{
+		return m_attackType;
 	}
 
 	#endregion

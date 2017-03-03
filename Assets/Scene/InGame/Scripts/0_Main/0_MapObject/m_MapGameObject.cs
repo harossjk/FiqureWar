@@ -50,7 +50,7 @@ public class m_MapGameObject  {
 	}
 	#endregion
 
-
+	/*
 	private GameObject m_heroMapObject = new GameObject();
 	public void SetHeroMapTile(ref GameObject obj)
 	{
@@ -61,7 +61,7 @@ public class m_MapGameObject  {
 	{
 		return m_heroMapObject;
 	}
-
+	*/
 
 	#region map waypoint list 
 	private List<GameObject> wayPointList = new List<GameObject>();

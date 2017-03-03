@@ -3,7 +3,7 @@ using System.Collections;
 
 public class c_PauseController  :MonoBehaviour {
 
-
+	/*
 	private static c_PauseController c_pauseController = null;
 
 	public static c_PauseController GetInstance()
@@ -14,7 +14,7 @@ public class c_PauseController  :MonoBehaviour {
 		}
 		return c_pauseController;
 	}
-
+	*/
 
 
 

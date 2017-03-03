@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour {
 
 	public void SetWayPoint(Vector3 wayList)
 	{
-		if (wayList == null) return;
+		//if (wayList == null) return;
 		m_wayPointList.Add(wayList);
 	}
 	public Vector3 GetWayPoint(int index)

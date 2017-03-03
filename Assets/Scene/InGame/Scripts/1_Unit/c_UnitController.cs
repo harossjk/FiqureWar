@@ -3,46 +3,26 @@ using System.Collections;
 
 public class c_UnitController : MonoBehaviour
 {
-	private static c_UnitController c_unitController = null;
-	public static c_UnitController GetInstance()
-	{
-		if (null == c_unitController)
-		{
-			c_unitController = FindObjectOfType(typeof(c_UnitController)) as c_UnitController;
-		}
-		return c_unitController;
-	}
+	private c_ControllerList m_controllerList;
 
 	private GameObject m_unitObject;
-	private const int HoldZ = -100;
-
 	private Creature_p m_unitType;
 	private Sight_Collider_Check m_sightColliderCheck;
 	private Range_Collider_Check m_rangeColliderCheck;
+	private const int HoldZ = -100;
 
 	private GameObject m_wayPoint;
 	private const int Center = 5;
 
 	private MapCreater m_mapcreater;
-	private bool isHeroMapNullCheck = false;
-	public void SetIsHeroMapNullCheck(bool type) { isHeroMapNullCheck = type; }
-
-	private int m_userHp;
-	private int m_userAttack;
-	private int m_userCurhp;
-
-	private int m_enemyHp;
-	private int m_enemyAttack;
-	private int m_enemyCurhp;
 
 
-	int m_useruniqueid = 0;
-	int m_enemyuniqueid = 0;
-
-
-	void Start()
+	public void Start()
 	{
+		m_controllerList = GameObject.Find("GameManager").GetComponent<c_ControllerList>();
+
 		m_unitObject = transform.gameObject;
+
 		if (m_unitObject == null) return;
 
 		m_unitType = m_unitObject.GetComponent<Creature_p>();
@@ -51,16 +31,17 @@ public class c_UnitController : MonoBehaviour
 		m_sightColliderCheck = FindObjectOfType(typeof(Sight_Collider_Check)) as Sight_Collider_Check;
 		if (m_sightColliderCheck == null) return;
 
+		m_rangeColliderCheck = FindObjectOfType(typeof(Range_Collider_Check)) as Range_Collider_Check;
+		if (m_rangeColliderCheck == null) return;
+
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
 		if (m_mapcreater == null) return;
 
-		m_rangeColliderCheck = FindObjectOfType(typeof(Range_Collider_Check)) as Range_Collider_Check;
-		if (m_rangeColliderCheck == null) return;
-		//c_ControllerList.c_eventHandler.OnCollisionEvent += Attack;
+		m_controllerList.GetEventController().OnAttackEvent += AttackEvent;
 	}
 
 	// Update is called once per frame
-	void Update()
+	public void Update()
 	{
 		if (m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
@@ -71,23 +52,23 @@ public class c_UnitController : MonoBehaviour
 		{
 			UnitSightMove();
 		}
-		else if (m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_ATTACK)
+		else if (m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE)
 			&& m_unitType.GetCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_RANGECOLLISION))
 		{
 			Attack();
 		}
 
-		if (m_ObjectList.m_mapGameObject.GetHeroMapTile() == null && m_mapcreater.GetIsHeroMakeCheck().Equals(false))
-		{
-			m_unitType.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
-		}
-		
+		//else if (m_ObjectList.m_mapGameObject.GetHeroMapTile() == null && m_mapcreater.GetIsHeroMakeCheck().Equals(false))
+		//{
+		//	m_unitType.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
+		//}
+
 	}
 
-
-	private void UnitWayPointMove()
+	public void UnitWayPointMove()
 	{
-		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
+		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
+			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
 			int curWayPointIndex = m_unitObject.GetComponent<Creature_p>().GetUserCurWayPointIndex();
 
@@ -99,7 +80,8 @@ public class c_UnitController : MonoBehaviour
 			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(curWayPointIndex);
 			if (m_wayPoint == null) return;
 		}
-		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
+			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
 			int Enemy_curWayPointIndex = m_unitObject.GetComponent<Creature_p>().GetEnemyCurWayPointIndex();
 
@@ -111,119 +93,97 @@ public class c_UnitController : MonoBehaviour
 			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(Enemy_curWayPointIndex);
 			if (m_wayPoint == null) return;
 		}
-		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER_HERO))
+		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER_HERO)
+			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
 			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(Center);
 			if (m_wayPoint == null) return;
 		}
-		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY_HERO))
+		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY_HERO)
+			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
 			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(Center);
 			if (m_wayPoint == null) return;
 
 		}
-		if ( m_unitType.GetGameStatusType().Equals(CommonTypes.GameStatusType.GAMESTATUS_TYPE_PAUSE)) return;
+		if (m_unitType.GetGameStatusType().Equals(CommonTypes.GameStatusType.GAMESTATUS_TYPE_PAUSE)) return;
 
 		float unitMoveSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
 		Vector3 targetPos = new Vector3(m_wayPoint.transform.position.x, m_wayPoint.transform.position.y, HoldZ);
 		Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * unitMoveSpeed);
 		m_unitObject.transform.position = movePos;
 	}
-
-
-
-
-	private void UnitSightMove() // sight to Range 
+	public void UnitSightMove() // sight to Range 
 	{
 		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
-		  && m_sightColliderCheck.GetPrevCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION))
+		  && m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE))
 		{
-			m_useruniqueid = m_unitType.GetUniqueIndex();
-
-			GameObject targetObject = m_sightColliderCheck.GetPrevUserSightTransFormPosion();
+			Vector3 targetObject = m_sightColliderCheck.GetSightNowEnemeyPosition();
 			float unitMoveSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
-
-			Vector3 targetPos = new Vector3(targetObject.transform.position.x, targetObject.transform.position.y, HoldZ);
+			
+			Vector3 targetPos = new Vector3(targetObject.x, targetObject.y, HoldZ);
 			Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * unitMoveSpeed);
-
-			m_unitObject.transform.position = movePos;
-
-
-		}
-		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY) &&
-			m_sightColliderCheck.GetPrevCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION))
-		{
-			m_enemyHp = m_unitType.GetUserUnitHP();
-			print("enemy hp : "+m_enemyHp);
-			m_enemyuniqueid = m_unitType.GetUniqueIndex();
-			print("enemy id : " + m_enemyuniqueid);
-
-			GameObject targetObject = m_sightColliderCheck.GetPrevEnemySightTransFormPosion();
-			float unitMoveSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
-
-			Vector3 targetPos = new Vector3(targetObject.transform.position.x, targetObject.transform.position.y, HoldZ);
-			Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * unitMoveSpeed);
-
+			
 			m_unitObject.transform.position = movePos;
 
 		}
+		//else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
+		//	&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE)
+		//	&& m_sightColliderCheck.GetPrevCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION))
+		//{
+		//	GameObject targetObject = m_sightColliderCheck.GetPrevEnemySightTransFormPosion();
+		//	float unitMoveSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
+		//
+		//	Vector3 targetPos = new Vector3(targetObject.transform.position.x, targetObject.transform.position.y, HoldZ);
+		//	Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * unitMoveSpeed);
+		//
+		//	m_unitObject.transform.position = movePos;
+		//
+		//}
 
 	}
 
-	private void Attack()
+	Transform m_colObjct;
+	int m_calHP = 0;
+
+	public void Attack()
 	{
 
-		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
-		{// 유저 가 공격하고 적이 파괴됨
+		if (m_colObjct == null) return;
+		int colObjcetHp = m_colObjct.GetComponent<Creature_p>().GetUserUnitHP();
 
-			int userAttack = m_unitType.GetUserUnitAttack();
-			int enemyCurhp = m_enemyHp - userAttack;
 
-			print("enemy hp : " + m_enemyHp);
-			print("enemy id : " + m_enemyuniqueid);
+		int userAttack = m_unitObject.GetComponent<Creature_p>().GetUserUnitAttack();
+		m_calHP = colObjcetHp - userAttack;
 
-			if (m_enemyHp > 0)
-			{
-				m_enemyHp -= userAttack;
-			}
-			else if (m_enemyHp == 0)
-			{
-			
-				Destroy(m_ObjectList.m_unitGameObject.GetUnitGameObject(m_enemyuniqueid));
-			}
-		}
-		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+		if(m_calHP > 0)
 		{
+			m_calHP -= userAttack;
+			m_colObjct.GetComponent<Creature_p>().SetUserUnitHP(m_calHP);
+		}
+		if(m_calHP == 0)
+		{
+			int uniqueIndex = m_colObjct.GetComponent<Creature_p>().GetUniqueIndex();
+			Destroy(m_ObjectList.m_unitGameObject.GetUnitGameObject(uniqueIndex));
+			m_ObjectList.m_unitGameObject.DeletUnitGameObject(uniqueIndex);
+			m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+		}
+	}
+	//private int m_nowUniqueIndex = 0;
+	
+
+	public void AttackEvent(GameObject targetObj, GameObject colObj)
+	{
 		
+		if (m_unitType.GetComponent<Creature_p>().GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE)
+			&& m_unitType.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
+			&& m_unitType.GetComponent<Creature_p>().GetAttackType().Equals(CommonTypes.AttackType.ATTACK_TYPE_ENEMY_ATTACK))
+		{
 
-			// 적이 공격하고 유저가 파괴됨 
-			//GameObject targetObject = m_rangeColliderCheck.GetPrevEnemyRangeObject();
-			//Debug.Log("MINION_TEAM_ENEMY : " + targetObject.name);
-
+			m_colObjct = colObj.transform.parent;
 
 		}
-
-
-		//hp = m_unitObject.GetComponent<Creature_p>().GetUserUnitHP();
-		//attack = m_unitObject.GetComponent<Creature_p>().GetUserUnitAttack();
-		//Curhp = hp - attack;
-		//
-		//m_unitObject.GetComponent<Creature_p>().SetUserUnitHP(Curhp);
-		//
-		//if (hp > 0)
-		//{
-		//	int ad = m_unitObject.GetComponent<Creature_p>().GetUserUnitHP();
-		//	ad -= attack;
-		//}
-		//else if (hp == 0)
-		//{
-		//	Destroy(gameObject);
-		//}
-
-
-
-
+	
 	}
-
-
 }
+

@@ -23,7 +23,7 @@ public class MapFight : MonoBehaviour {
 		if (m_mapcreater == null) return;
 
 
-		Destroy(m_ObjectList.m_mapGameObject.GetHeroMapTile(), 30);
+		//Destroy(m_ObjectList.m_mapGameObject.GetHeroMapTile(), 30);
 		m_mapcreater.SetIsHeroMakeCheck(false);
 	}
 
@@ -70,19 +70,19 @@ public class MapFight : MonoBehaviour {
 			{
 				print("비김");
 				m_ObjectList.m_unitGameObject.SetMiniGameCheck("draw");
-				Debug.Log(m_ObjectList.m_unitGameObject.GetMiniGameCheck());
+
 			}
 			if (com_user_formula == 1 || com_user_formula == -2)
 			{
 				print("유저 이김 컴퓨터 짐");
 				m_ObjectList.m_unitGameObject.SetMiniGameCheck("win");
-				Debug.Log(m_ObjectList.m_unitGameObject.GetMiniGameCheck());
+
 			}
 			if (com_user_formula == -1 || com_user_formula == 2)
 			{
 				print("유저 짐 컴퓨터 이김");
 				m_ObjectList.m_unitGameObject.SetMiniGameCheck("lose");
-				Debug.Log(m_ObjectList.m_unitGameObject.GetMiniGameCheck());
+
 			}
 			
 		}

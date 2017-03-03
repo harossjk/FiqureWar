@@ -32,8 +32,12 @@ public class m_UnitGameObject  {
 		}
 		unit_GameObjectList.Add(unique_id, obj);
 	}
+	public void DeletUnitGameObject(int unique_id)
+	{
+		unit_GameObjectList.Remove(unique_id);
+	}
 
-	public int UnitGameObjectLength()
+	public int GetUnitGameObjectLength()
 	{
 		return unit_GameObjectList.Count;
 	}
@@ -48,10 +52,5 @@ public class m_UnitGameObject  {
 	{
 		MiniGameCheck = Type;
 	}
-
-	
-
-
-
 
 }

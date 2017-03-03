@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class c_ViewController : MonoBehaviour {
-
+	/*
 	private static c_ViewController c_viewController = null;
 	public static c_ViewController GetInstance()
 	{
@@ -12,7 +12,7 @@ public class c_ViewController : MonoBehaviour {
 		}
 		return c_viewController;
 	}
-
+	*/
 
 
 }

@@ -56,8 +56,7 @@ public class MapCreater : MonoBehaviour
 		{
 			GameObject wayPos = Instantiate(wayPointprefab) as GameObject;
 			
-			if (wayPos == null)
-				continue;
+			if (wayPos == null) continue;
 			wayPos.name = "m_wayPoint" + k;
 			wayPos.transform.position = m_wayPoint[k];
 			m_ObjectList.m_mapGameObject.SetWayPoint(ref wayPos);
@@ -104,7 +103,7 @@ public class MapCreater : MonoBehaviour
 		GameObject heroMapTile = Instantiate(heroMapTlieprefap) as GameObject;
 		if (heroMapTile == null) return;
 		heroMapTile.transform.parent = this.transform;
-		m_ObjectList.m_mapGameObject.SetHeroMapTile(ref heroMapTile);
+		//m_ObjectList.m_mapGameObject.SetHeroMapTile(ref heroMapTile);
 		isHeroMapTile = true;
 	}
 

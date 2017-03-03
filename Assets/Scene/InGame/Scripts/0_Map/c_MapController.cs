@@ -3,7 +3,7 @@ using System.Collections;
 
 public class c_MapController : MonoBehaviour
 {
-
+	/*
 	private static c_MapController c_mapController = null;
 
 	public static c_MapController GetInstance()
@@ -14,7 +14,7 @@ public class c_MapController : MonoBehaviour
 		}
 		return c_mapController;
 	}
-
+	*/
 
 
 }

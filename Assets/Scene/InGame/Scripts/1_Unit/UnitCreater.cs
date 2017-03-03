@@ -10,8 +10,6 @@ public class UnitCreater : MonoBehaviour
 	}
 	private MapCreater m_mapcreater;
 
-
-
 	void Start()
 	{
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
@@ -21,36 +19,24 @@ public class UnitCreater : MonoBehaviour
 
 	public void userCreateUnit()
 	{
-		if (m_mapcreater.GetIsHeroMakeCheck()){return;}
-		else
-		{
 			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
-		}
 	}
 
 	public void enemyCreateUnit()
 	{
-		if (m_mapcreater.GetIsHeroMakeCheck()){return;}
-		else
-		{ 
 			UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
-		}
 	}
 
-	public void HeroCreate()
+	/*public void HeroCreate()
 	{
-		if (m_mapcreater.GetIsHeroMakeCheck()){return;}
-		else
-		{
 			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER_HERO);
 			UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY_HERO);
-		}
-	}
+	}*/
 	// Use this for initialization
+
 	private void UnitObjectCreate(string prefabsName, int unique_id, string unitType, int hp, int attack, float attackSpeed, float moveSpeed, CommonTypes.MinionTeam miniontype)
 	{
 		string prefabsPath = "prefabs/Unit/" + prefabsName;
-
 		GameObject prefabsLoad = Resources.Load(prefabsPath) as GameObject;
 		if (prefabsLoad == null) return;
 
@@ -60,12 +46,33 @@ public class UnitCreater : MonoBehaviour
 		unitProduceObject.transform.parent = this.transform;
 		unitProduceObject.name = prefabsName + "_" + unique_id;
 
-		Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
-		if (creatureScript == null) return;
+		if(miniontype.Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
+		{
+		
 
-		creatureScript.SetUniqueIndex(unique_id);
-		creatureScript.SetCreatureType(miniontype);
-		creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+			Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
+			if (creatureScript == null) return;
+
+			creatureScript.SetUniqueIndex(unique_id);
+			creatureScript.SetCreatureType(miniontype);
+			creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+			creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
+			creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+			creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
+			
+		}
+		else if (miniontype.Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+		{
+			Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
+			if (creatureScript == null) return;
+
+			creatureScript.SetUniqueIndex(unique_id);
+			creatureScript.SetCreatureType(miniontype);
+			creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+			creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
+			creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+			creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
+		}
 
 		switch (unitType)
 		{
