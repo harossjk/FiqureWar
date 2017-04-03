@@ -18,6 +18,7 @@ public class CommonTypes {
 		MINION_TEAM_ENEMY,
 		MINION_TEAM_USER_HERO,
 		MINION_TEAM_ENEMY_HERO,
+		MINION_TEAM_USER_SCV,
 		MINION_TEAM_MAX,
 	}
 
@@ -29,6 +30,7 @@ public class CommonTypes {
 		STATUS_TYPE_PAUSE, // 일시정지	
 		STATUS_TYPE_SIGHTMOVE,
 		STATUS_TYPE_RANGEMOVE,
+		STATUS_TYPE_SCV_PLAY,
 		STATUS_TYPE_MAX,
 	}
 	public enum AttackType

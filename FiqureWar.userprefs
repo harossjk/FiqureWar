@@ -1,0 +1,12 @@
+﻿<Properties StartupItem="FiqureWar.CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scene\InGame\Scripts\1_Unit\c_UnitController.cs">
+    <Files>
+      <File FileName="Assets\Scene\InGame\Scripts\1_Unit\c_UnitController.cs" Line="98" Column="34" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

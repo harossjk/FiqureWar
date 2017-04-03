@@ -2,17 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class m_MapGameObject  {
+public class m_MapGameObject :MonoBehaviour {
 
-	private static m_MapGameObject m_mapGameObject = null;
-	public static m_MapGameObject GetInstance()
-	{
-		if (m_mapGameObject == null)
-		{
-			m_mapGameObject = new m_MapGameObject();
-		}
-		return m_mapGameObject;
-	}
+	//private static m_MapGameObject m_mapGameObject = null;
+	//public static m_MapGameObject GetInstance()
+	//{
+	//	if (m_mapGameObject == null)
+	//	{
+	//		m_mapGameObject = new m_MapGameObject();
+	//	}
+	//	return m_mapGameObject;
+	//}
 
 	#region map game object list
 	private Dictionary<int, GameObject> m_mapGameObjectList = new Dictionary<int, GameObject>();
@@ -80,5 +80,22 @@ public class m_MapGameObject  {
 		return wayPointList[index];
 	}
 	#endregion
+
+	private List<GameObject> mineralPointList = new List<GameObject>();
+	public void SetMineralPoint(ref GameObject mineralPoint)
+	{
+		if (mineralPoint == null) return;
+
+		mineralPointList.Add(mineralPoint);
+	}
+	public GameObject GetMineralPoint(int index)
+	{
+		if (mineralPointList.Count == 0 || (index < 0 || mineralPointList.Count <= index))
+		{
+			return null;
+		}
+		return mineralPointList[index];
+	}
+
 
 }

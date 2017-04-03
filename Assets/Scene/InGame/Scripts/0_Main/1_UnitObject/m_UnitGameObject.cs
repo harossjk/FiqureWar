@@ -2,17 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class m_UnitGameObject  {
+public class m_UnitGameObject : MonoBehaviour  {
 
-	private static m_UnitGameObject m_unitGameObject = null;
-	public static m_UnitGameObject GetInstance()
-	{
-		if (m_unitGameObject == null)
-		{
-			m_unitGameObject = new m_UnitGameObject();
-		}
-		return m_unitGameObject;
-	}
+	//private static m_UnitGameObject m_unitGameObject = null;
+	//public static m_UnitGameObject GetInstance()
+	//{
+	//	if (m_unitGameObject == null)
+	//	{
+	//		m_unitGameObject = new m_UnitGameObject();
+	//	}
+	//	return m_unitGameObject;
+	//}
 
 	private Dictionary<int, GameObject> unit_GameObjectList = new Dictionary<int, GameObject>();
 	public GameObject GetUnitGameObject(int unique_id)

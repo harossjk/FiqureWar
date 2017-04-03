@@ -3,6 +3,8 @@ using System.Collections;
 
 public class MapFight : MonoBehaviour {
 
+	private m_ObjectList m_objectList;
+
 	private MapCreater m_mapcreater;
 	private int com;
 	private int user;
@@ -18,6 +20,8 @@ public class MapFight : MonoBehaviour {
 
 
 	void Start () {
+		m_objectList = GameObject.Find("GameObjectManger").GetComponent<m_ObjectList>();
+		if (m_objectList == null) return;
 
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
 		if (m_mapcreater == null) return;
@@ -69,19 +73,19 @@ public class MapFight : MonoBehaviour {
 			if (com_user_formula == 0)
 			{
 				print("비김");
-				m_ObjectList.m_unitGameObject.SetMiniGameCheck("draw");
+				m_objectList.GetUnitGameObject().SetMiniGameCheck("draw");
 
 			}
 			if (com_user_formula == 1 || com_user_formula == -2)
 			{
 				print("유저 이김 컴퓨터 짐");
-				m_ObjectList.m_unitGameObject.SetMiniGameCheck("win");
+				m_objectList.GetUnitGameObject().SetMiniGameCheck("win");
 
 			}
 			if (com_user_formula == -1 || com_user_formula == 2)
 			{
 				print("유저 짐 컴퓨터 이김");
-				m_ObjectList.m_unitGameObject.SetMiniGameCheck("lose");
+				m_objectList.GetUnitGameObject().SetMiniGameCheck("lose");
 
 			}
 			

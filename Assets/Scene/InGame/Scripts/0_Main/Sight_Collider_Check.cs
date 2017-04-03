@@ -19,7 +19,7 @@ public class Sight_Collider_Check : MonoBehaviour
 
 	void Start()
 	{
-		m_controllerList = GameObject.Find("GameManager").GetComponent<c_ControllerList>();
+		m_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
 
 		m_unitObject = transform.parent.gameObject;
 		if (m_unitObject == null) return;
@@ -42,7 +42,7 @@ public class Sight_Collider_Check : MonoBehaviour
 		{
 			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
 			{
-				m_controllerList.GetComponent<c_ControllerList>().GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
+				m_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
 			}
 			//else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER_HERO))
 			//{
@@ -50,6 +50,7 @@ public class Sight_Collider_Check : MonoBehaviour
 			//}
 		}
 	}
+	
 
 	//sight event Occur
 	public void SightCollisionEventCheck(GameObject targetObj, GameObject colObj)
@@ -59,8 +60,6 @@ public class Sight_Collider_Check : MonoBehaviour
 			if (colObj.tag == "Enemy_Sight")
 			{
 				//	m_ev.OnCollisionEvent -= SightCollisionEventCheck;
-
-
 				m_enemeyPosition = colObj.transform.position;
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION);

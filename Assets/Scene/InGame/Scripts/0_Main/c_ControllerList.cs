@@ -4,13 +4,12 @@ using System;
 
 public class c_ControllerList : MonoBehaviour
 {
-	private c_MapController c_mapController;// { get { return c_MapController.GetInstance(); } }
-	//public static c_UnitController c_unitController { get { return c_UnitController.GetInstance(); } }
-	private c_ViewController c_viewController;// { get { return c_ViewController.GetInstance(); } }
-	private c_PauseController c_pausecontroller;// { get { return c_PauseController.GetInstance(); } }
+	private c_MapController c_mapController;
+	private c_ViewController c_viewController;
+	private c_PauseController c_pausecontroller;
 
 	//이벤트 컨트롤러 추가 
-	private c_EventHandler c_eventHandler;// { get { return c_EventHandler.GetInstance(); } }
+	private c_EventHandler c_eventHandler;
 
 	void Awake()
 	{

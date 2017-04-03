@@ -3,10 +3,13 @@ using System.Collections;
 
 public class MapCreater : MonoBehaviour
 {
+	private m_ObjectList m_objectList;
+
 	private static int m_mapIndex = 0;
 	private Vector3 m_mapTilestartPos = new Vector3(-150.0f, -250.0f, -1.0f);
 	private const int HoldZ = -100;
 	private Vector3[] m_wayPoint = new Vector3[6];
+	private Vector3[] m_mineralPoint = new Vector3[3];
 	private bool isHeroMapTile = false;
 
 	public void SetIsHeroMakeCheck(bool type){isHeroMapTile = type;}
@@ -15,21 +18,48 @@ public class MapCreater : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		m_objectList = GameObject.Find("GameObjectManger").GetComponent<m_ObjectList>();
+		if (m_objectList == null) return;
+
 		mapTileCreate();
 		mapObjectCreate("Enemy_Map", 0);
 		mapObjectCreate("User_Map", 1);
+		MineralCreate();
 	}
 
 	//Map 객체 생성
 	private void mapObjectCreate(string prefabsName, int unique_id)
 	{
+
 		string prefabsPath = "prefabs/Map/" + prefabsName;
 		GameObject prefabsLoad = Resources.Load(prefabsPath) as GameObject;
 		if (prefabsLoad == null) return;
 		GameObject mapProduceObject = Instantiate(prefabsLoad) as GameObject;
 		if (mapProduceObject == null) return;
+	
+
 		mapProduceObject.transform.parent = this.transform;
-		m_ObjectList.m_mapGameObject.SetMapGameObject(unique_id, ref mapProduceObject);
+		m_objectList.GetMapGameObject().SetMapGameObject(unique_id, ref mapProduceObject);
+
+	
+	}
+	private void MineralCreate()
+	{
+		string prefabsPath = "prefabs/Map/User_Mineral";
+		GameObject prefabsLoad = Resources.Load(prefabsPath) as GameObject;
+		if (prefabsLoad == null) return;
+		m_mineralPoint[0] = new Vector3(40, -40, -2);
+		m_mineralPoint[1] = new Vector3(60, -30, -2);
+		m_mineralPoint[2] = new Vector3(80, -20, -2);
+		for (int k = 0; k < m_mineralPoint.Length; k++)
+		{
+			GameObject minerlapos = Instantiate(prefabsLoad) as GameObject;
+			if (minerlapos == null) continue;
+			minerlapos.transform.position = m_mineralPoint[k];
+			m_objectList.GetMapGameObject().SetMineralPoint(ref minerlapos);
+
+		}
+		Debug.Log(m_objectList.GetMapGameObject().GetMineralPoint(0));
 	}
 
 	//Map 타일 생성
@@ -59,7 +89,7 @@ public class MapCreater : MonoBehaviour
 			if (wayPos == null) continue;
 			wayPos.name = "m_wayPoint" + k;
 			wayPos.transform.position = m_wayPoint[k];
-			m_ObjectList.m_mapGameObject.SetWayPoint(ref wayPos);
+			m_objectList.GetMapGameObject().SetWayPoint(ref wayPos);
 		}
 
 		for (int i = 0; i < 16; ++i) //가로 16개
@@ -89,7 +119,7 @@ public class MapCreater : MonoBehaviour
 				mapTile.transform.position = new Vector3(tilePosX, tilePosY, m_mapTilestartPos.z);
 
 				// Insert Tile to list
-				m_ObjectList.m_mapGameObject.SetMapTile(ref mapTile);
+				m_objectList.GetMapGameObject().SetMapTile(ref mapTile);
 
 			}
 		}

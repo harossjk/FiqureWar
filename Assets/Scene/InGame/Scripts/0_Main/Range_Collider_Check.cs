@@ -6,10 +6,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
-
 	private Vector3 m_enemeyPosition;
-
-
 
 	public Vector3 GetRangeNowEnemeyPosition()
 	{
@@ -18,7 +15,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 
 	void Start()
 	{
-		m_controllerList = GameObject.Find("GameManager").GetComponent<c_ControllerList>();
+		m_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
 
 		m_unitObject = transform.parent.gameObject;
 		if (m_unitObject == null) return;
@@ -34,8 +31,6 @@ public class Range_Collider_Check  : MonoBehaviour{
 		WayPointMove(col);
 		RangeStatusType(col);
 	}
-
-	private bool isOnEvent = true;
 
 	private void WayPointMove(Collider col)
 	{
@@ -57,6 +52,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 			}
 		}
 	}
+
 	private void RangeStatusType(Collider col)
 	{
 		if (col.gameObject.tag.Equals("Enemy_Player"))
@@ -65,17 +61,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 				&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE)
 				&& m_unitType.GetCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION))
 			{
-
-				//isOnEvent = true;
-
-				if (!isOnEvent)
-				{
-					return;
-				}
-				else if(isOnEvent)
-				{
 					m_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
-				}
 			}
 		}
 	}
@@ -85,18 +71,13 @@ public class Range_Collider_Check  : MonoBehaviour{
 	{
 		if (targetObj.GetComponent<Creature_p>().GetUniqueIndex() == m_unitObject.GetComponent<Creature_p>().GetUniqueIndex())
 		{
-			if (colObj.tag == "Enemy_Player")
+			if (targetObj.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER) && colObj.tag == "Enemy_Player")
 			{
-				isOnEvent = false;
-
-
 				m_enemeyPosition = colObj.transform.position;
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_RANGECOLLISION);
 				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_ENEMY_ATTACK);
 				m_controllerList.GetEventController().SendAttackEvent(m_unitObject, colObj.gameObject);
-
-
 			}
 		}
 	}

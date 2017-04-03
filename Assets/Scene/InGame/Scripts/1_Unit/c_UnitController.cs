@@ -3,23 +3,28 @@ using System.Collections;
 
 public class c_UnitController : MonoBehaviour
 {
-	private c_ControllerList m_controllerList;
+	private c_ControllerList c_controllerList;
+	private m_ObjectList m_objectList;
 
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
 	private Sight_Collider_Check m_sightColliderCheck;
 	private Range_Collider_Check m_rangeColliderCheck;
 	private const int HoldZ = -100;
-
+	
 	private GameObject m_wayPoint;
 	private const int Center = 5;
 
 	private MapCreater m_mapcreater;
-
+	private Vector3 ScvStartPoint = new Vector3(100, -80, -100);
 
 	public void Start()
 	{
-		m_controllerList = GameObject.Find("GameManager").GetComponent<c_ControllerList>();
+		c_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
+		if (c_controllerList == null) return;
+
+		m_objectList = GameObject.Find("GameObjectManger").GetComponent<m_ObjectList>();
+		if (m_objectList == null) return;
 
 		m_unitObject = transform.gameObject;
 
@@ -37,7 +42,7 @@ public class c_UnitController : MonoBehaviour
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
 		if (m_mapcreater == null) return;
 
-		m_controllerList.GetEventController().OnAttackEvent += AttackEvent;
+		c_controllerList.GetEventController().OnAttackEvent += AttackEvent;
 	}
 
 	// Update is called once per frame
@@ -57,6 +62,16 @@ public class c_UnitController : MonoBehaviour
 		{
 			Attack();
 		}
+		else if(m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SCV_PLAY))
+		{
+			
+			ScvMineralMove();
+			
+		}
+		
+		
+		
+		
 
 		//else if (m_ObjectList.m_mapGameObject.GetHeroMapTile() == null && m_mapcreater.GetIsHeroMakeCheck().Equals(false))
 		//{
@@ -77,7 +92,7 @@ public class c_UnitController : MonoBehaviour
 				curWayPointIndex++;
 				m_unitObject.GetComponent<Creature_p>().SetUserWayPointIndex(curWayPointIndex);
 			}
-			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(curWayPointIndex);
+			m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(curWayPointIndex);
 			if (m_wayPoint == null) return;
 		}
 		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
@@ -90,19 +105,19 @@ public class c_UnitController : MonoBehaviour
 				Enemy_curWayPointIndex--;
 				m_unitObject.GetComponent<Creature_p>().SetEnemyWayPointIndex(Enemy_curWayPointIndex);
 			}
-			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(Enemy_curWayPointIndex);
+			m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(Enemy_curWayPointIndex);
 			if (m_wayPoint == null) return;
 		}
 		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER_HERO)
 			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
-			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(Center);
+			m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(Center);
 			if (m_wayPoint == null) return;
 		}
 		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY_HERO)
 			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
-			m_wayPoint = m_ObjectList.m_mapGameObject.GetWayPoint(Center);
+			m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(Center);
 			if (m_wayPoint == null) return;
 
 		}
@@ -112,6 +127,7 @@ public class c_UnitController : MonoBehaviour
 		Vector3 targetPos = new Vector3(m_wayPoint.transform.position.x, m_wayPoint.transform.position.y, HoldZ);
 		Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * unitMoveSpeed);
 		m_unitObject.transform.position = movePos;
+	
 	}
 	public void UnitSightMove() // sight to Range 
 	{
@@ -143,6 +159,25 @@ public class c_UnitController : MonoBehaviour
 
 	}
 
+	private GameObject m_mineralPoint;
+	public void ScvMineralMove()
+	{
+		m_mineralPoint = m_objectList.GetMapGameObject().GetMineralPoint(1);
+		Debug.Log(m_mineralPoint.transform.position);
+		if (m_mineralPoint == null) return;
+		Vector3 targetPos = new Vector3(m_mineralPoint.transform.position.x, m_mineralPoint.transform.position.y, m_mineralPoint.transform.position.z);
+		Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * 100f);
+		m_unitObject.transform.position = movePos;
+		
+	}
+	private void ScvCollider(Collider col)
+	{
+		if(col.gameObject.tag.Equals("User_Scv"))
+		{
+			
+		}
+	}
+	
 	Transform m_colObjct;
 	int m_calHP = 0;
 
@@ -151,8 +186,6 @@ public class c_UnitController : MonoBehaviour
 
 		if (m_colObjct == null) return;
 		int colObjcetHp = m_colObjct.GetComponent<Creature_p>().GetUserUnitHP();
-
-
 		int userAttack = m_unitObject.GetComponent<Creature_p>().GetUserUnitAttack();
 		m_calHP = colObjcetHp - userAttack;
 
@@ -163,14 +196,13 @@ public class c_UnitController : MonoBehaviour
 		}
 		if(m_calHP == 0)
 		{
-			int uniqueIndex = m_colObjct.GetComponent<Creature_p>().GetUniqueIndex();
-			Destroy(m_ObjectList.m_unitGameObject.GetUnitGameObject(uniqueIndex));
-			m_ObjectList.m_unitGameObject.DeletUnitGameObject(uniqueIndex);
-			m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+			//파괴 부분 수정하기 
+			//int uniqueIndex = m_colObjct.GetComponent<Creature_p>().GetUniqueIndex();
+			//Destroy(m_objectList.GetUnitGameObject().GetUnitGameObject(uniqueIndex));
+			//m_objectList.GetUnitGameObject().DeletUnitGameObject(uniqueIndex);
+			//m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
 		}
 	}
-	//private int m_nowUniqueIndex = 0;
-	
 
 	public void AttackEvent(GameObject targetObj, GameObject colObj)
 	{
