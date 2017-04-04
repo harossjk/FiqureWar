@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.4.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -78,6 +76,7 @@
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\1_UnitObject\m_UnitGameObject.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\CommonTypes.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Range_Collider_Check.cs" />
+    <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Scv_Collider_Check.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Sight_Collider_Check.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\c_ControllerList.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\c_EventHandler.cs" />

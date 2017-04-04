@@ -3,6 +3,7 @@ using System.Collections;
 
 public class UnitCreater : MonoBehaviour
 {
+	
 	public static int m_uniqueidIndex = 0;
 	public static int UniqueIdIndexGenerator()
 	{
@@ -10,6 +11,7 @@ public class UnitCreater : MonoBehaviour
 	}
 	private MapCreater m_mapcreater;
 	private m_ObjectList m_objectList;
+	
 
 	void Start()
 	{
@@ -23,6 +25,7 @@ public class UnitCreater : MonoBehaviour
 	public void userCreateUnit()
 	{
 			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
+
 	}
 
 	public void enemyCreateUnit()
@@ -32,6 +35,10 @@ public class UnitCreater : MonoBehaviour
 	public void scvCreateUnit()
 	{
 			UnitObjectCreate("SCV", UniqueIdIndexGenerator(), "SCV", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER_SCV);
+		Vector3 scvPoint = new Vector3(100, -80, -100);
+		m_objectList.GetUnitGameObject().SetScvStartPoint(scvPoint);
+		Debug.Log(m_objectList.GetUnitGameObject().GetScvStartPoint());
+
 	}
 	/*public void HeroCreate()
 	{
@@ -110,7 +117,7 @@ public class UnitCreater : MonoBehaviour
 				break;
 		}
 	}
-
+	
 
 
 

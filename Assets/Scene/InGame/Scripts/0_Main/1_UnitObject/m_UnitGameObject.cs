@@ -53,4 +53,14 @@ public class m_UnitGameObject : MonoBehaviour  {
 		MiniGameCheck = Type;
 	}
 
+	private Vector3 ScvStartPoint;
+	public void SetScvStartPoint(Vector3 Position)
+	{
+		ScvStartPoint = Position;
+	}
+
+	public Vector3 GetScvStartPoint()
+	{
+		return ScvStartPoint;
+	}
 }

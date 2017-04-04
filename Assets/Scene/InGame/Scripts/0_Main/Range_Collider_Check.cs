@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class Range_Collider_Check  : MonoBehaviour{
-	private c_ControllerList m_controllerList;
 
+	private c_ControllerList m_controllerList;
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
 	private Vector3 m_enemeyPosition;

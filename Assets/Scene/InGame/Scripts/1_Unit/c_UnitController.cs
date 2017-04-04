@@ -11,12 +11,12 @@ public class c_UnitController : MonoBehaviour
 	private Sight_Collider_Check m_sightColliderCheck;
 	private Range_Collider_Check m_rangeColliderCheck;
 	private const int HoldZ = -100;
-	
+	//private Vector3 ScvStartPoint;
 	private GameObject m_wayPoint;
 	private const int Center = 5;
 
 	private MapCreater m_mapcreater;
-	private Vector3 ScvStartPoint = new Vector3(100, -80, -100);
+	
 
 	public void Start()
 	{
@@ -64,14 +64,16 @@ public class c_UnitController : MonoBehaviour
 		}
 		else if(m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SCV_PLAY))
 		{
-			
 			ScvMineralMove();
-			
 		}
 		
-		
-		
-		
+		else if (m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SCV_BACK))
+		{
+			ScvStartPosition();
+		}
+
+
+
 
 		//else if (m_ObjectList.m_mapGameObject.GetHeroMapTile() == null && m_mapcreater.GetIsHeroMakeCheck().Equals(false))
 		//{
@@ -168,15 +170,32 @@ public class c_UnitController : MonoBehaviour
 		Vector3 targetPos = new Vector3(m_mineralPoint.transform.position.x, m_mineralPoint.transform.position.y, m_mineralPoint.transform.position.z);
 		Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * 100f);
 		m_unitObject.transform.position = movePos;
-		
-	}
-	private void ScvCollider(Collider col)
-	{
-		if(col.gameObject.tag.Equals("User_Scv"))
+		/*if(m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SCV_BACK))
 		{
-			
-		}
+			Debug.Log("백무브1");
+			ScvStartPoint = m_objectList.GetUnitGameObject().GetScvStartPoint();
+			//Vector3 ScvStartTargetPos = new Vector3(ScvStartPoint.x, ScvStartPoint.y, ScvStartPoint.z);
+			Vector3 ScvBackMove = Vector3.MoveTowards(m_unitObject.transform.position, ScvStartPoint, Time.deltaTime * 100f);
+			m_unitObject.transform.position = ScvBackMove;
+			Debug.Log("백무브2");
+		}*/
 	}
+	private void ScvStartPosition()
+	{
+		Vector3 ScvStartPoint = m_objectList.GetUnitGameObject().GetScvStartPoint();
+		Debug.Log(ScvStartPoint+"원점");
+		//Vector3 ScvStartTargetPos = new Vector3(ScvStartPoint.x, ScvStartPoint.y, ScvStartPoint.z);
+		Vector3 ScvBackMove = Vector3.MoveTowards(m_unitObject.transform.position, ScvStartPoint, Time.deltaTime * 100f);
+		m_unitObject.transform.position = ScvBackMove;
+		Debug.Log("백무브2");
+		if(m_unitObject.transform.position == ScvStartPoint)
+		{
+			m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SCV_PLAY);
+		}
+		
+		Debug.Log(m_unitType.GetStatusType());
+	}
+	
 	
 	Transform m_colObjct;
 	int m_calHP = 0;

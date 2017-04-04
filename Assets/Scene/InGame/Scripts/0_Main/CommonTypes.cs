@@ -31,6 +31,7 @@ public class CommonTypes {
 		STATUS_TYPE_SIGHTMOVE,
 		STATUS_TYPE_RANGEMOVE,
 		STATUS_TYPE_SCV_PLAY,
+		STATUS_TYPE_SCV_BACK,
 		STATUS_TYPE_MAX,
 	}
 	public enum AttackType
