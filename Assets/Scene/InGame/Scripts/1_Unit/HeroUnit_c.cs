@@ -7,8 +7,8 @@ public class HeroUnit_c : Creature_p
 
 	private int m_strongArm = 0;  //힘
 	private int m_agility = 0;	//민
-	private int m_intellect = 0;	//지
-
+	private int m_intellect = 0;    //지
+	
 	public int GetStrongArm()
 	{
 		return m_strongArm;
@@ -37,6 +37,7 @@ public class HeroUnit_c : Creature_p
 		m_intellect = intellect;
 	}
 
+	
 
 
 

@@ -96,6 +96,18 @@ public class m_MapGameObject :MonoBehaviour {
 		}
 		return mineralPointList[index];
 	}
+	private int MineralStorage = 100;
+	public void SetMineralStorage(int Mineral)
+	{
+	//	Debug.Log(MineralStorage+"맵 게임 오브젝트 미네랄 스토리지");
+		MineralStorage += Mineral;
+	}
 
-
+	public int GetMineralStorage()
+	{
+		return MineralStorage;
+	}
+	
+	
+	
 }

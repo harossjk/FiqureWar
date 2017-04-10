@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Range_Collider_Check  : MonoBehaviour{
 
-	private c_ControllerList m_controllerList;
+	private c_ControllerList c_controllerList;
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
 	private Vector3 m_enemeyPosition;
@@ -15,15 +15,14 @@ public class Range_Collider_Check  : MonoBehaviour{
 
 	void Start()
 	{
-		m_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
+		c_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
 
 		m_unitObject = transform.parent.gameObject;
 		if (m_unitObject == null) return;
 		m_unitType = m_unitObject.transform.GetComponent<Creature_p>();
 		if (m_unitObject == null) return;
 
-		m_controllerList.GetEventController().OnCollisionEvent += RangeCollisionEventCheck;
-		//c_ControllerList.c_eventHandler.OnCollisionEvent += RangeCollisionEventCheck;
+		c_controllerList.GetEventController().OnCollisionEvent += RangeCollisionEventCheck;
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -61,7 +60,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 				&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE)
 				&& m_unitType.GetCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION))
 			{
-					m_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
+					c_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
 			}
 		}
 	}
@@ -77,13 +76,13 @@ public class Range_Collider_Check  : MonoBehaviour{
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_RANGECOLLISION);
 				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_ENEMY_ATTACK);
-				m_controllerList.GetEventController().SendAttackEvent(m_unitObject, colObj.gameObject);
+				c_controllerList.GetEventController().SendAttackEvent(m_unitObject, colObj.gameObject);
 			}
 		}
 	}
 
 	void OnDestroy()
 	{
-		m_controllerList.GetEventController().OnCollisionEvent -= RangeCollisionEventCheck;
+		c_controllerList.GetEventController().OnCollisionEvent -= RangeCollisionEventCheck;
 	}
 }

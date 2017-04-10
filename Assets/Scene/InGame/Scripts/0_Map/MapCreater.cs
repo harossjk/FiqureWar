@@ -11,7 +11,6 @@ public class MapCreater : MonoBehaviour
 	private Vector3[] m_wayPoint = new Vector3[6];
 	private Vector3[] m_mineralPoint = new Vector3[3];
 	private bool isHeroMapTile = false;
-
 	public void SetIsHeroMakeCheck(bool type){isHeroMapTile = type;}
 	public bool GetIsHeroMakeCheck(){return isHeroMapTile;}
 
@@ -25,6 +24,7 @@ public class MapCreater : MonoBehaviour
 		mapObjectCreate("Enemy_Map", 0);
 		mapObjectCreate("User_Map", 1);
 		MineralCreate();
+		
 	}
 
 	//Map 객체 생성
@@ -41,7 +41,6 @@ public class MapCreater : MonoBehaviour
 		mapProduceObject.transform.parent = this.transform;
 		m_objectList.GetMapGameObject().SetMapGameObject(unique_id, ref mapProduceObject);
 
-	
 	}
 	private void MineralCreate()
 	{
@@ -59,9 +58,11 @@ public class MapCreater : MonoBehaviour
 			m_objectList.GetMapGameObject().SetMineralPoint(ref minerlapos);
 
 		}
-		Debug.Log(m_objectList.GetMapGameObject().GetMineralPoint(0));
 	}
 
+
+
+	
 	//Map 타일 생성
 	private void mapTileCreate()
 	{
@@ -141,6 +142,9 @@ public class MapCreater : MonoBehaviour
 	{
 		return m_mapIndex++;
 	}
+
+	
+
 
 }
 

@@ -11,21 +11,28 @@ public class UnitCreater : MonoBehaviour
 	}
 	private MapCreater m_mapcreater;
 	private m_ObjectList m_objectList;
-	
-
+	private Creature_p m_unitPrice;
 	void Start()
 	{
 		m_objectList = GameObject.Find("GameObjectManger").GetComponent<m_ObjectList>();
 		if (m_objectList == null) return;
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
 		if (m_mapcreater == null) return;
+		m_unitPrice = FindObjectOfType(typeof(Creature_p)) as Creature_p;
+		if (m_unitPrice == null) return;
 	}
-
+	
 
 	public void userCreateUnit()
 	{
+		int heroPrice = m_unitPrice.GetHeroPrice();
+		Debug.Log(heroPrice);
+		if (m_objectList.GetMapGameObject().GetMineralStorage() >= heroPrice)
+		{
 			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
-
+			m_objectList.GetMapGameObject().SetMineralStorage(-heroPrice);
+			Debug.Log(m_objectList.GetMapGameObject().GetMineralStorage());
+		}
 	}
 
 	public void enemyCreateUnit()
@@ -34,10 +41,18 @@ public class UnitCreater : MonoBehaviour
 	}
 	public void scvCreateUnit()
 	{
+		int scvPrice = m_unitPrice.GetScvPrice();
+
+		if (m_objectList.GetMapGameObject().GetMineralStorage() >= scvPrice)
+		{
 			UnitObjectCreate("SCV", UniqueIdIndexGenerator(), "SCV", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER_SCV);
-		Vector3 scvPoint = new Vector3(100, -80, -100);
+			m_objectList.GetMapGameObject().SetMineralStorage(-scvPrice);
+		
+		}
+	
+		Vector3 scvPoint = new Vector3(100, -80, -2);
 		m_objectList.GetUnitGameObject().SetScvStartPoint(scvPoint);
-		Debug.Log(m_objectList.GetUnitGameObject().GetScvStartPoint());
+
 
 	}
 	/*public void HeroCreate()
@@ -59,46 +74,19 @@ public class UnitCreater : MonoBehaviour
 		unitProduceObject.transform.parent = this.transform;
 		unitProduceObject.name = prefabsName + "_" + unique_id;
 
-		if(miniontype.Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
-		{
-			Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
-			if (creatureScript == null) return;
+		Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
+		if (creatureScript == null) return;
 
-			creatureScript.SetUniqueIndex(unique_id);
-			creatureScript.SetCreatureType(miniontype);
-			creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
-			creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
-			creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
-			creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
-			
-		}
-		else if (miniontype.Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
-		{
-			Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
-			if (creatureScript == null) return;
-
-			creatureScript.SetUniqueIndex(unique_id);
-			creatureScript.SetCreatureType(miniontype);
-			creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
-			creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
-			creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
-			creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
-		}
-		else if (miniontype.Equals(CommonTypes.MinionTeam.MINION_TEAM_USER_SCV))
-		{
-			Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
-			if (creatureScript == null) return;
-
-			creatureScript.SetUniqueIndex(unique_id);
-			creatureScript.SetCreatureType(miniontype);
-			creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SCV_PLAY);
-			creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
-			creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
-			creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
-		}
 		switch (unitType)
 		{
 			case "Hero":
+				creatureScript.SetUniqueIndex(unique_id);
+				creatureScript.SetCreatureType(miniontype);
+				creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+				creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
+				creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+				creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
+				
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitHP(hp);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttack(attack);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttackSpeed(attackSpeed);
@@ -107,13 +95,23 @@ public class UnitCreater : MonoBehaviour
 				break;
 
 			case "Nomal":
+
+
+
+
+
+
+
+
 				break;
 			case "SCV":
 
-
-
-
-
+				creatureScript.SetUniqueIndex(unique_id);
+				creatureScript.SetCreatureType(miniontype);
+				creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SCV_NONE);
+				creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
+				creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+				creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
 				break;
 		}
 	}
