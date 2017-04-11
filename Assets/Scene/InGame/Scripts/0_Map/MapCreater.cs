@@ -36,7 +36,6 @@ public class MapCreater : MonoBehaviour
 		if (prefabsLoad == null) return;
 		GameObject mapProduceObject = Instantiate(prefabsLoad) as GameObject;
 		if (mapProduceObject == null) return;
-	
 
 		mapProduceObject.transform.parent = this.transform;
 		m_objectList.GetMapGameObject().SetMapGameObject(unique_id, ref mapProduceObject);
@@ -55,6 +54,8 @@ public class MapCreater : MonoBehaviour
 			GameObject minerlapos = Instantiate(prefabsLoad) as GameObject;
 			if (minerlapos == null) continue;
 			minerlapos.transform.position = m_mineralPoint[k];
+			minerlapos.name = "minerlapos" + k;
+			minerlapos.transform.parent = this.transform;
 			m_objectList.GetMapGameObject().SetMineralPoint(ref minerlapos);
 
 		}
@@ -90,6 +91,7 @@ public class MapCreater : MonoBehaviour
 			if (wayPos == null) continue;
 			wayPos.name = "m_wayPoint" + k;
 			wayPos.transform.position = m_wayPoint[k];
+			wayPos.transform.parent = this.transform;
 			m_objectList.GetMapGameObject().SetWayPoint(ref wayPos);
 		}
 
@@ -142,9 +144,6 @@ public class MapCreater : MonoBehaviour
 	{
 		return m_mapIndex++;
 	}
-
-	
-
 
 }
 

@@ -6,13 +6,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 	private c_ControllerList c_controllerList;
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
-	private Vector3 m_enemeyPosition;
-
-	public Vector3 GetRangeNowEnemeyPosition()
-	{
-		return m_enemeyPosition;
-	}
-
+	
 	void Start()
 	{
 		c_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
@@ -60,7 +54,18 @@ public class Range_Collider_Check  : MonoBehaviour{
 				&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE)
 				&& m_unitType.GetCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION))
 			{
-					c_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
+				c_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
+			}
+	
+		}
+		else if(col.gameObject.tag.Equals("User_Player"))
+		{
+			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
+				&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE)
+				&& m_unitType.GetCollisionType().Equals(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION))
+			{
+
+				c_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
 			}
 		}
 	}
@@ -72,10 +77,18 @@ public class Range_Collider_Check  : MonoBehaviour{
 		{
 			if (targetObj.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER) && colObj.tag == "Enemy_Player")
 			{
-				m_enemeyPosition = colObj.transform.position;
+
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_RANGECOLLISION);
 				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_ENEMY_ATTACK);
+				c_controllerList.GetEventController().SendAttackEvent(m_unitObject, colObj.gameObject);
+			}
+			else if (targetObj.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY) && colObj.tag == "User_Player")
+			{
+
+				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE);
+				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_RANGECOLLISION);
+				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_USER_ATTACK);
 				c_controllerList.GetEventController().SendAttackEvent(m_unitObject, colObj.gameObject);
 			}
 		}

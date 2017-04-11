@@ -15,8 +15,8 @@ public class MapFight : MonoBehaviour {
 	
 	public string win, draw, lose;
 	
-	int comRandom = 0;
-	bool isCheck = false;
+	private int comRandom = 0;
+	private bool isCheck = false;
 
 
 	void Start () {

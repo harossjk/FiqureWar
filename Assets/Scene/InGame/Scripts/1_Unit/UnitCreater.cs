@@ -3,7 +3,7 @@ using System.Collections;
 
 public class UnitCreater : MonoBehaviour
 {
-	
+
 	public static int m_uniqueidIndex = 0;
 	public static int UniqueIdIndexGenerator()
 	{
@@ -18,10 +18,13 @@ public class UnitCreater : MonoBehaviour
 		if (m_objectList == null) return;
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
 		if (m_mapcreater == null) return;
-		m_unitPrice = FindObjectOfType(typeof(Creature_p)) as Creature_p;
+
+
+		m_unitPrice = gameObject.AddComponent<Creature_p>();
 		if (m_unitPrice == null) return;
+
 	}
-	
+
 
 	public void userCreateUnit()
 	{
@@ -37,7 +40,7 @@ public class UnitCreater : MonoBehaviour
 
 	public void enemyCreateUnit()
 	{
-			UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
+		UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
 	}
 	public void scvCreateUnit()
 	{
@@ -47,9 +50,9 @@ public class UnitCreater : MonoBehaviour
 		{
 			UnitObjectCreate("SCV", UniqueIdIndexGenerator(), "SCV", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER_SCV);
 			m_objectList.GetMapGameObject().SetMineralStorage(-scvPrice);
-		
+
 		}
-	
+
 		Vector3 scvPoint = new Vector3(100, -80, -2);
 		m_objectList.GetUnitGameObject().SetScvStartPoint(scvPoint);
 
@@ -86,7 +89,7 @@ public class UnitCreater : MonoBehaviour
 				creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
 				creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
 				creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
-				
+
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitHP(hp);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttack(attack);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttackSpeed(attackSpeed);
@@ -115,7 +118,7 @@ public class UnitCreater : MonoBehaviour
 				break;
 		}
 	}
-	
+
 
 
 

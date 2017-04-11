@@ -10,11 +10,15 @@ public class Sight_Collider_Check : MonoBehaviour
 	private const int HoldZ = -100;
 
 	private Vector3 m_enemeyPosition;
+	private Vector3 m_userPosition;
 	public Vector3 GetSightNowEnemeyPosition()
 	{
 		return m_enemeyPosition;
 	}
-
+	public Vector3 GetSightNoewUserPosition()
+	{
+		return m_userPosition;
+	}
 
 
 	void Start()
@@ -37,20 +41,29 @@ public class Sight_Collider_Check : MonoBehaviour
 	//Type setting function that moves the unit from  sight to range
 	private void SightStatusType(Collider col)
 	{
-
 		if (col.gameObject.tag.Equals("Enemy_Sight")) // user stop
 		{
 			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
 			{
 				m_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
 			}
-			//else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER_HERO))
-			//{
-			//	c_ControllerList.c_eventHandler.SendCollisionEvent(m_unitObject, col.gameObject);
-			//}
 		}
+		else if(col.gameObject.tag.Equals("User_Sight")) // enemy stop
+		{
+			
+			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+			{
+
+				m_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
+			}
+		}
+
+		//else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER_HERO))
+		//{
+		//	c_ControllerList.c_eventHandler.SendCollisionEvent(m_unitObject, col.gameObject);
+		//}
 	}
-	
+
 
 	//sight event Occur
 	public void SightCollisionEventCheck(GameObject targetObj, GameObject colObj)
@@ -59,8 +72,14 @@ public class Sight_Collider_Check : MonoBehaviour
 		{
 			if (colObj.tag == "Enemy_Sight")
 			{
-				//	m_ev.OnCollisionEvent -= SightCollisionEventCheck;
 				m_enemeyPosition = colObj.transform.position;
+				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE);
+				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION);
+			}
+			else if(colObj.tag == "User_Sight")
+			{
+
+				m_userPosition = colObj.transform.position;
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION);
 			}

@@ -4,17 +4,7 @@ using System;
 
 public class c_EventHandler : MonoBehaviour {
 
-	/*
-	private static c_EventHandler c_eventHandler = null;
-	public static c_EventHandler GetInstance()
-	{
-		if (null == c_eventHandler)
-		{
-			c_eventHandler = new c_EventHandler();
-		}
-		return c_eventHandler;
-	}
-	*/
+
 	public delegate void CollisionEventHandler(GameObject targetObj, GameObject colObj);
 
 	public event CollisionEventHandler OnCollisionEvent;
@@ -27,11 +17,15 @@ public class c_EventHandler : MonoBehaviour {
 		return;
 	}
 
-	public delegate void AttackEventHandler(GameObject targetObj, GameObject colObj);
 	public event AttackEventHandler OnAttackEvent;
-	
+	public delegate void AttackEventHandler(GameObject targetObj, GameObject colObj);
+
 	public void SendAttackEvent(GameObject targetObj, GameObject colObj)
 	{
+		if (OnAttackEvent != null)
+		{
 			OnAttackEvent(targetObj, colObj);
+		}
+		return;
 	}
 }

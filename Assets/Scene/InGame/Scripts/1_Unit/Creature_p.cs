@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Creature_p : MonoBehaviour
 {
-
+	/*
 	#region fixing unit setting const data
 	private const int m_unitHP = 1000;
 	private const int m_unitAttack = 100;
@@ -28,6 +28,7 @@ public class Creature_p : MonoBehaviour
 	}
 
 	#endregion
+	*/
 
 	#region user unit setting 
 
@@ -36,7 +37,7 @@ public class Creature_p : MonoBehaviour
 	private float m_userUnitMoveSpeed = 0;
 	private float m_userUnitAttackSpeed = 0;
 	private int m_enemyUnitHP = 0;
-	private int m_Hero_price = 1;
+	private int m_Hero_price = 40;
 	private int m_Scv_price = 20;
 
 	public int GetScvPrice()

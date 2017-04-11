@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\NomalUnit_c.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\Scv_c.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\UnitCreater.cs" />
+    <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\c_ScvController.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\c_UnitController.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\2_View\c_ViewController.cs" />
   </ItemGroup>
