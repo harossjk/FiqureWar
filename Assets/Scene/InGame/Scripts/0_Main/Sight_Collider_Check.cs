@@ -53,7 +53,6 @@ public class Sight_Collider_Check : MonoBehaviour
 			
 			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
 			{
-
 				m_controllerList.GetEventController().SendCollisionEvent(m_unitObject, col.gameObject);
 			}
 		}

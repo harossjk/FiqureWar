@@ -26,12 +26,10 @@ public class c_UnitController : MonoBehaviour
 		if (m_objectList == null) return;
 
 		m_unitObject = transform.gameObject;
-
 		if (m_unitObject == null) return;
 
 		m_unitType = m_unitObject.transform.GetComponent<Creature_p>();
 		if (m_unitType == null) return;
-
 
 		m_sightColliderCheck = FindObjectOfType(typeof(Sight_Collider_Check)) as Sight_Collider_Check;
 		if (m_sightColliderCheck == null) return;
@@ -62,7 +60,6 @@ public class c_UnitController : MonoBehaviour
 		{
 			Attack();
 		}
-
 	}
 
 	private void UnitWayPointMove()
@@ -128,14 +125,21 @@ public class c_UnitController : MonoBehaviour
 			m_unitObject.transform.position = movePos;
 
 		}
-		else if(m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
+		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
 		  && m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE))
 		{
+
+
+
 			Vector3 targetObject = m_sightColliderCheck.GetSightNoewUserPosition();
 			float unitMoveSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
 
 			Vector3 targetPos = new Vector3(targetObject.x, targetObject.y, HoldZ);
 			Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * unitMoveSpeed);
+
+
+
+			//시야에 발견됬지만 또는 충돌 하였지만 적이 없어진경우는 그냥 플레이?
 
 			m_unitObject.transform.position = movePos;
 		}
@@ -152,8 +156,6 @@ public class c_UnitController : MonoBehaviour
 			int userAttack = m_unitObject.GetComponent<Creature_p>().GetUserUnitAttack();
 			m_calHP = colObjcetHp - userAttack;
 
-			Debug.Log("현재 유저 에너지 "+m_unitObject.GetComponent<Creature_p>().GetUserUnitHP());
-
 			if (m_calHP > 0)
 			{
 				m_calHP -= userAttack;
@@ -167,21 +169,21 @@ public class c_UnitController : MonoBehaviour
 				Destroy(destroyTarget);
 				m_objectList.GetUnitGameObject().DeletUnitGameObject(uniqueIndex);
 
-
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
-
-				
-
+				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
+				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+				m_unitType.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
 			}
 		}
-		else if(m_unitObject.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+		else if (m_unitObject.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
 		{
 			if (m_UserAttack == null) return;
 
 			int colObjcetHp = m_UserAttack.GetComponent<Creature_p>().GetUserUnitHP();
 			int userAttack = m_unitObject.GetComponent<Creature_p>().GetUserUnitAttack();
 			m_calHP = colObjcetHp - userAttack;
-			Debug.Log("현재 적군 에너지 " + m_unitObject.GetComponent<Creature_p>().GetUserUnitHP());
+
+
 			if (m_calHP > 0)
 			{
 				m_calHP -= userAttack;
@@ -196,14 +198,12 @@ public class c_UnitController : MonoBehaviour
 				m_objectList.GetUnitGameObject().DeletUnitGameObject(uniqueIndex);
 
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
-
+				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
+				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+				m_unitType.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
 
 			}
-
 		}
-
-		
-
 	}
 
 	private void AttackEvent(GameObject targetObj, GameObject colObj)
@@ -218,7 +218,7 @@ public class c_UnitController : MonoBehaviour
 
 				m_EnemyAttack = colObj.transform.parent;
 			}
-			else if(m_unitType.GetComponent<Creature_p>().GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE)
+			else if (m_unitType.GetComponent<Creature_p>().GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE)
 			&& m_unitType.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
 			&& m_unitType.GetComponent<Creature_p>().GetAttackType().Equals(CommonTypes.AttackType.ATTACK_TYPE_USER_ATTACK))
 			{

@@ -40,7 +40,7 @@ public class UnitCreater : MonoBehaviour
 
 	public void enemyCreateUnit()
 	{
-		UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
+		UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 10, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
 	}
 	public void scvCreateUnit()
 	{
