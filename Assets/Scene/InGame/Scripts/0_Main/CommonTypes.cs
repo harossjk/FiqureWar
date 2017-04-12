@@ -61,4 +61,5 @@ public class CommonTypes {
 		GAMESTATUS_TYPE_RESUME,
 		GAMESTATUS_TYPE_MAX,
 	}
+
 }

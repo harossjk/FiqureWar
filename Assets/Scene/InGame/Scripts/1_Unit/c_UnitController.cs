@@ -168,7 +168,7 @@ public class c_UnitController : MonoBehaviour
 
 				Destroy(destroyTarget);
 				m_objectList.GetUnitGameObject().DeletUnitGameObject(uniqueIndex);
-
+				
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
 				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);

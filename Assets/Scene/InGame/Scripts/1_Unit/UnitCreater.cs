@@ -74,6 +74,9 @@ public class UnitCreater : MonoBehaviour
 		GameObject unitProduceObject = Instantiate(prefabsLoad) as GameObject;
 		if (unitProduceObject == null) return;
 
+
+
+
 		unitProduceObject.transform.parent = this.transform;
 		unitProduceObject.name = prefabsName + "_" + unique_id;
 
@@ -89,7 +92,7 @@ public class UnitCreater : MonoBehaviour
 				creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
 				creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
 				creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
-
+				
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitHP(hp);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttack(attack);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttackSpeed(attackSpeed);
