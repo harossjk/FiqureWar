@@ -60,8 +60,8 @@ public class m_MapGameObject :MonoBehaviour {
 	public GameObject GetHeroMapTile()
 	{
 		return m_heroMapObject;
-	}
-	*/
+	}*/
+	
 
 	#region map waypoint list 
 	private List<GameObject> wayPointList = new List<GameObject>();
@@ -96,6 +96,7 @@ public class m_MapGameObject :MonoBehaviour {
 		}
 		return mineralPointList[index];
 	}
+	
 	private int MineralStorage = 100;
 	public void SetMineralStorage(int Mineral)
 	{
@@ -107,7 +108,7 @@ public class m_MapGameObject :MonoBehaviour {
 	{
 		return MineralStorage;
 	}
-	
-	
-	
+
+
+
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapFight : MonoBehaviour {
+public class MapFight : MonoBehaviour
+{
 
 	private m_ObjectList m_objectList;
 
@@ -13,13 +14,14 @@ public class MapFight : MonoBehaviour {
 	private string strType_Seissors , strType_Rock , strType_Paper; //(1,2,3)
 	private int intType_Seissors, intType_Rock, intType_Paper;
 	
-	public string win, draw, lose;
+	private string win, draw, lose;
 	
 	private int comRandom = 0;
 	private bool isCheck = false;
 
 
-	void Start () {
+	void Start ()
+	{
 		m_objectList = GameObject.Find("GameObjectManger").GetComponent<m_ObjectList>();
 		if (m_objectList == null) return;
 

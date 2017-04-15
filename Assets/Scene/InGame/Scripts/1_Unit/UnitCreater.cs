@@ -29,18 +29,16 @@ public class UnitCreater : MonoBehaviour
 	public void userCreateUnit()
 	{
 		int heroPrice = m_unitPrice.GetHeroPrice();
-		Debug.Log(heroPrice);
 		if (m_objectList.GetMapGameObject().GetMineralStorage() >= heroPrice)
 		{
-			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
+			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 0, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
 			m_objectList.GetMapGameObject().SetMineralStorage(-heroPrice);
-			Debug.Log(m_objectList.GetMapGameObject().GetMineralStorage());
 		}
 	}
 
 	public void enemyCreateUnit()
 	{
-		UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 10, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
+		UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 1, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
 	}
 	public void scvCreateUnit()
 	{
@@ -58,11 +56,11 @@ public class UnitCreater : MonoBehaviour
 
 
 	}
-	/*public void HeroCreate()
+	public void HeroCreate()
 	{
-			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER_HERO);
-			UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY_HERO);
-	}*/
+			UnitObjectCreate("User_Hero_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER_HERO);
+			UnitObjectCreate("Enemy_Hero_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 100, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY_HERO);
+	}
 	// Use this for initialization
 
 	private void UnitObjectCreate(string prefabsName, int unique_id, string unitType, int hp, int attack, float attackSpeed, float moveSpeed, CommonTypes.MinionTeam miniontype)

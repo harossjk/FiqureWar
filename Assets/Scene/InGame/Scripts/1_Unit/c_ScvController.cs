@@ -77,11 +77,12 @@ public class c_ScvController : MonoBehaviour
 
 			m_objectList.GetMapGameObject().SetMineralStorage(m_storage);
 			m_storage = 0;
+			Debug.Log("누적" + m_objectList.GetMapGameObject().GetMineralStorage());
 		}
 		if (m_scvType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SCV_ORIGINPOINT))
 		{
 			m_scvType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SCV_PLAY);
-			m_storage = 0;
+			m_mineral = 0;
 		}
 	}
 	private void ScvWork()

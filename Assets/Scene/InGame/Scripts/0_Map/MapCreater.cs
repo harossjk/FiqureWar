@@ -136,8 +136,9 @@ public class MapCreater : MonoBehaviour
 		GameObject heroMapTile = Instantiate(heroMapTlieprefap) as GameObject;
 		if (heroMapTile == null) return;
 		heroMapTile.transform.parent = this.transform;
-		//m_ObjectList.m_mapGameObject.SetHeroMapTile(ref heroMapTile);
+	//	m_objectList.GetMapGameObject().SetHeroMapTile(heroMapTile);
 		isHeroMapTile = true;
+		Destroy(heroMapTile, 10);
 	}
 
 	private static int MapTileIndexGenerator()

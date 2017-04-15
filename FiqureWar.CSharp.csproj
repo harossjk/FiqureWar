@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\0_MapObject\m_MapGameObject.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\1_UnitObject\m_UnitGameObject.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\CommonTypes.cs" />
+    <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Hero_Collider_Check.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Range_Collider_Check.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Scv_Collider_Check.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Sight_Collider_Check.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\m_ObjectList.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Map\MapCreater.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Map\MapFight.cs" />
+    <Compile Include="Assets\Scene\InGame\Scripts\0_Map\Storage.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Map\Tile.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Map\c_MapController.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\Creature_p.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\NomalUnit_c.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\Scv_c.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\UnitCreater.cs" />
+    <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\c_HeroController.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\c_ScvController.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\1_Unit\c_UnitController.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\2_View\c_ViewController.cs" />
