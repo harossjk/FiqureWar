@@ -10,7 +10,6 @@ public class Range_Collider_Check  : MonoBehaviour{
 	void Start()
 	{
 		c_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
-
 		m_unitObject = transform.parent.gameObject;
 		if (m_unitObject == null) return;
 		m_unitType = m_unitObject.transform.GetComponent<Creature_p>();
@@ -73,7 +72,8 @@ public class Range_Collider_Check  : MonoBehaviour{
 	//range event Occur
 	public void RangeCollisionEventCheck(GameObject targetObj, GameObject colObj)
 	{
-		if (targetObj.GetComponent<Creature_p>().GetUniqueIndex() == m_unitObject.GetComponent<Creature_p>().GetUniqueIndex())
+		if (m_unitType == null) return;
+		else if (targetObj.GetComponent<Creature_p>().GetUniqueIndex() == m_unitObject.GetComponent<Creature_p>().GetUniqueIndex())
 		{
 			if (targetObj.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER) && colObj.tag == "Enemy_Player")
 			{

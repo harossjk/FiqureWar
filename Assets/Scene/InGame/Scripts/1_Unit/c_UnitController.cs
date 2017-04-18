@@ -12,7 +12,7 @@ public class c_UnitController : MonoBehaviour
 	private const int HoldZ = -100;
 	private GameObject m_wayPoint;
 	private const int Center = 5;
-	private MapCreater m_mapcreater;
+
 	private Transform m_EnemyAttack;
 	private Transform m_UserAttack;
 	private int m_calHP = 0;
@@ -36,9 +36,6 @@ public class c_UnitController : MonoBehaviour
 
 		m_rangeColliderCheck = FindObjectOfType(typeof(Range_Collider_Check)) as Range_Collider_Check;
 		if (m_rangeColliderCheck == null) return;
-
-		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
-		if (m_mapcreater == null) return;
 
 		c_controllerList.GetEventController().OnAttackEvent += AttackEvent;
 	}
@@ -73,7 +70,7 @@ public class c_UnitController : MonoBehaviour
 		//	return;
 		//}
 
-
+		
 
 		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
 			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
@@ -116,11 +113,11 @@ public class c_UnitController : MonoBehaviour
 		  && m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE))
 		{
 			Transform colObjTarget = m_sightColliderCheck.GetSightTargetObject();
-			if (colObjTarget == null)
-			{
-				m_unitObject.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
-				return;
-			}
+			//if (colObjTarget == null)
+			//{
+			//	m_unitObject.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+			//	return;
+			// }
 			
 			Vector3 targetObject = colObjTarget.transform.position;
 			float unitMoveSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
@@ -136,11 +133,11 @@ public class c_UnitController : MonoBehaviour
 		{
 			
 			Transform colObjTarget = m_sightColliderCheck.GetSightTargetObject();
-			if (colObjTarget == null) 
-			{
-				m_unitObject.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
-				return;
-			}
+			//if (colObjTarget == null) 
+			//{
+			//	m_unitObject.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
+			//	return;
+			//}
 
 			Vector3 targetObject = colObjTarget.transform.position;
 
@@ -158,8 +155,6 @@ public class c_UnitController : MonoBehaviour
 	{
 		if (m_unitObject.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
 		{
-			
-
 			if (m_EnemyAttack == null)
 			{
 				m_unitObject.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
@@ -188,15 +183,13 @@ public class c_UnitController : MonoBehaviour
 				m_unitType.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
 				m_unitType.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
-
-
+		
 
 				
 			}
 		}
 		else if (m_unitObject.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
 		{
-
 			if (m_UserAttack == null)
 			{
 				m_unitObject.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
@@ -226,6 +219,7 @@ public class c_UnitController : MonoBehaviour
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
 				m_unitType.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
 
+		
 			}
 		}
 	}
@@ -233,7 +227,7 @@ public class c_UnitController : MonoBehaviour
 	private void AttackEvent(GameObject targetObj, GameObject colObj)
 	{
 		if (m_unitType == null) return;
-		if (targetObj.GetComponent<Creature_p>().GetUniqueIndex() == m_unitObject.GetComponent<Creature_p>().GetUniqueIndex())
+		else if (targetObj.GetComponent<Creature_p>().GetUniqueIndex() == m_unitObject.GetComponent<Creature_p>().GetUniqueIndex())
 		{
 			if (m_unitType.GetComponent<Creature_p>().GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE)
 			&& m_unitType.GetComponent<Creature_p>().GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
