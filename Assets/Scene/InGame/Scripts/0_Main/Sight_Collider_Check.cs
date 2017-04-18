@@ -7,14 +7,16 @@ public class Sight_Collider_Check : MonoBehaviour
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
 	private const int HoldZ = -100;
-	
-	//private Vector3 m_enemeyPosition;
-	//private Vector3 m_userPosition;
 
 	private Transform m_targetCheck;
 	public Transform GetSightTargetObject()
 	{
 		return m_targetCheck;
+	}
+
+	public void SetSightTargetObject(Transform target)
+	{
+		m_targetCheck = target;
 	}
 
 	void Start()
@@ -37,6 +39,7 @@ public class Sight_Collider_Check : MonoBehaviour
 	//Type setting function that moves the unit from  sight to range
 	private void SightStatusType(Collider col)
 	{
+		
 		if (col.gameObject.tag.Equals("Enemy_Sight")) // user stop
 		{
 			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
@@ -53,21 +56,30 @@ public class Sight_Collider_Check : MonoBehaviour
 		}
 	}
 
-
 	//sight event Occur
 	public void SightCollisionEventCheck(GameObject targetObj, GameObject colObj)
 	{
 		if (targetObj.GetComponent<Creature_p>().GetUniqueIndex() == m_unitObject.GetComponent<Creature_p>().GetUniqueIndex())
 		{
 			if (colObj.tag == "Enemy_Sight")
-			{	
+			{
+
+				if (m_targetCheck != null) return;
+				
 				m_targetCheck = colObj.transform.parent;
+				
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION);
 			}
 			else if(colObj.tag == "User_Sight")
 			{
+
+				if (m_targetCheck != null) return;
+				// 상대방이 항상 있는게 아니니깐 죽으면 초기화 시켜줘야한다....
+
+
 				m_targetCheck = colObj.transform.parent;
+				
 				m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE);
 				m_unitType.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_SIGHTCOLLISION);
 			}
