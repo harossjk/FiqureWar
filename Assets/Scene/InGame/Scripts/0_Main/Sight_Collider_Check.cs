@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 public class Sight_Collider_Check : MonoBehaviour
 {
+	
 	private c_ControllerList m_controllerList;
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
@@ -88,4 +89,5 @@ public class Sight_Collider_Check : MonoBehaviour
 
 		m_controllerList.GetEventController().OnCollisionEvent -= SightCollisionEventCheck;
 	}
+	
 }

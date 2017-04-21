@@ -29,14 +29,6 @@ public class Creature_p : MonoBehaviour
 
 	#endregion
 	*/
-
-	#region user unit setting 
-
-	private int m_userUnitHP = 0;
-	private int m_userUnitAttack = 0;
-	private float m_userUnitMoveSpeed = 0;
-	private float m_userUnitAttackSpeed = 0;
-	private int m_enemyUnitHP = 0;
 	private int m_Hero_price = 1;
 	private int m_Scv_price = 20;
 
@@ -48,6 +40,16 @@ public class Creature_p : MonoBehaviour
 	{
 		return m_Hero_price;
 	}
+
+	#region user unit setting 
+
+	private int m_userUnitHP = 0;
+	private int m_userUnitAttack = 0;
+	private float m_userUnitMoveSpeed = 0;
+	private float m_userUnitAttackSpeed = 0;
+	private int m_enemyUnitHP = 0;
+
+
 	public int GetEnemyUnitHP()
 	{
 		return m_enemyUnitHP;

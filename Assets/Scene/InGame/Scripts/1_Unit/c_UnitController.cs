@@ -1,8 +1,91 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class c_UnitController : MonoBehaviour
 {
+	/*
+	private c_ControllerList c_controllerList;
+	private m_ObjectList m_objectList;
+	private GameObject m_unitObject;
+	private Creature_p m_unitType;
+	private GameObject m_wayPoint;
+	private const int HoldZ = -100;
+
+
+	private void Init()
+	{
+		c_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
+		if (c_controllerList == null) return;
+
+		m_objectList = GameObject.Find("GameObjectManger").GetComponent<m_ObjectList>();
+		if (m_objectList == null) return;
+
+		m_unitObject = transform.gameObject;
+		if (m_unitObject == null) return;
+
+		m_unitType = m_unitObject.transform.GetComponent<Creature_p>();
+		if (m_unitType == null) return;
+
+		//c_controllerList.GetEventController().OnAttackEvent += AttackEvent;
+	}
+
+
+	void Start()
+	{
+		Init();
+	}
+
+	void Update()
+	{
+		if (m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
+		{  // 유닛 움직이기 
+			UnitMove();
+		}
+	}
+	private void UnitMove()
+	{
+		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
+		   && m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
+		{
+			int curWayPointIndex = m_unitObject.GetComponent<Creature_p>().GetUserCurWayPointIndex();
+
+			if (curWayPointIndex == -1)
+			{
+				curWayPointIndex++;
+				m_unitObject.GetComponent<Creature_p>().SetUserWayPointIndex(curWayPointIndex);
+			}
+			m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(curWayPointIndex);
+			if (m_wayPoint == null) return;
+		}
+		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
+			&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
+		{
+			int Enemy_curWayPointIndex = m_unitObject.GetComponent<Creature_p>().GetEnemyCurWayPointIndex();
+
+			if (Enemy_curWayPointIndex == 5)
+			{
+				Enemy_curWayPointIndex--;
+				m_unitObject.GetComponent<Creature_p>().SetEnemyWayPointIndex(Enemy_curWayPointIndex);
+			}
+			m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(Enemy_curWayPointIndex);
+			if (m_wayPoint == null) return;
+		}
+
+		float unitMoveSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
+		Vector3 targetPos = new Vector3(m_wayPoint.transform.position.x, m_wayPoint.transform.position.y, HoldZ);
+		Vector3 movePos = Vector3.MoveTowards(m_unitObject.transform.position, targetPos, Time.deltaTime * unitMoveSpeed);
+
+		m_unitObject.transform.position = movePos;
+	}
+
+
+	private IEnumerator ChackTargetState(float dley)
+	{
+		yield return new WaitForSeconds(dley);
+	}
+	*/
+	
 	private c_ControllerList c_controllerList;
 	private m_ObjectList m_objectList;
 	private GameObject m_unitObject;
@@ -160,15 +243,28 @@ public class c_UnitController : MonoBehaviour
 				m_unitObject.GetComponent<Creature_p>().SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
 				return;
 			}
-	
+
+
+
+			GameObject hpobject = m_EnemyAttack.transform.GetChild(3).transform.gameObject;
+			if (hpobject == null) return;
+			Slider HpBar = hpobject.transform.GetComponent<Slider>();
+			if (HpBar == null) return;
+
 			int colObjcetHp = m_EnemyAttack.GetComponent<Creature_p>().GetUserUnitHP();
 			int userAttack = m_unitObject.GetComponent<Creature_p>().GetUserUnitAttack();
 			m_calHP = colObjcetHp - userAttack;
+
+		
+
 
 			if (m_calHP > 0)
 			{
 				m_calHP -= userAttack;
 				m_EnemyAttack.GetComponent<Creature_p>().SetUserUnitHP(m_calHP);
+
+				HpBar.value = Mathf.MoveTowards(colObjcetHp, m_calHP, 1);
+
 				
 			}
 			if (m_calHP == 0)
@@ -196,15 +292,23 @@ public class c_UnitController : MonoBehaviour
 				return;
 			}
 
+			GameObject hpobject = m_UserAttack.transform.GetChild(3).transform.gameObject;
+			if (hpobject == null) return;
+			Slider HpBar = hpobject.transform.GetComponent<Slider>();
+			if (HpBar == null) return;
+
 			int colObjcetHp = m_UserAttack.GetComponent<Creature_p>().GetUserUnitHP();
 			int userAttack = m_unitObject.GetComponent<Creature_p>().GetUserUnitAttack();
 			m_calHP = colObjcetHp - userAttack;
 
+	
 
 			if (m_calHP > 0)
 			{
 				m_calHP -= userAttack;
 				m_UserAttack.GetComponent<Creature_p>().SetUserUnitHP(m_calHP);
+				HpBar.value = Mathf.MoveTowards(colObjcetHp, m_calHP, 1);
+
 			}
 			if (m_calHP == 0)
 			{
@@ -245,5 +349,6 @@ public class c_UnitController : MonoBehaviour
 			}
 		}
 	}
+	
 }
 

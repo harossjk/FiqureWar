@@ -46,9 +46,9 @@ public class MapCreater : MonoBehaviour
 		string prefabsPath = "prefabs/Map/User_Mineral";
 		GameObject prefabsLoad = Resources.Load(prefabsPath) as GameObject;
 		if (prefabsLoad == null) return;
-		m_mineralPoint[0] = new Vector3(40, -40, -2);
-		m_mineralPoint[1] = new Vector3(60, -30, -2);
-		m_mineralPoint[2] = new Vector3(80, -20, -2);
+		m_mineralPoint[0] = new Vector3(-20, -0, -2);
+		m_mineralPoint[1] = new Vector3(0, -0, -2);
+		m_mineralPoint[2] = new Vector3(20, -0, -2);
 		for (int k = 0; k < m_mineralPoint.Length; k++)
 		{
 			GameObject minerlapos = Instantiate(prefabsLoad) as GameObject;
@@ -77,11 +77,11 @@ public class MapCreater : MonoBehaviour
 		if (wayPointprefab == null)
 			return;
 
-		m_wayPoint[0] = new Vector3(-10, -220, HoldZ);
-		m_wayPoint[1] = new Vector3(-130, -220, HoldZ);
-		m_wayPoint[2] = new Vector3(-130, 0, HoldZ);
-		m_wayPoint[3] = new Vector3(-130, 220, HoldZ);
-		m_wayPoint[4] = new Vector3(-10, 220, HoldZ);
+		m_wayPoint[0] = new Vector3(-10, -160, HoldZ);
+		m_wayPoint[1] = new Vector3(-100, -160, HoldZ);
+		m_wayPoint[2] = new Vector3(-100, 0, HoldZ);
+		m_wayPoint[3] = new Vector3(-100, 160, HoldZ);
+		m_wayPoint[4] = new Vector3(-10, 160, HoldZ);
 		m_wayPoint[5] = new Vector3(0, 0, HoldZ);
 
 		for (int k = 0; k < m_wayPoint.Length; k++)

@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\1_UnitObject\m_UnitGameObject.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\CommonTypes.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Hero_Collider_Check.cs" />
+    <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Hp_Bar.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Range_Collider_Check.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Scv_Collider_Check.cs" />
     <Compile Include="Assets\Scene\InGame\Scripts\0_Main\Sight_Collider_Check.cs" />

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class UnitCreater : MonoBehaviour
@@ -18,8 +19,6 @@ public class UnitCreater : MonoBehaviour
 		if (m_objectList == null) return;
 		m_mapcreater = FindObjectOfType(typeof(MapCreater)) as MapCreater;
 		if (m_mapcreater == null) return;
-
-
 		m_unitPrice = gameObject.AddComponent<Creature_p>();
 		if (m_unitPrice == null) return;
 
@@ -33,6 +32,7 @@ public class UnitCreater : MonoBehaviour
 		{
 			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 0, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
 			m_objectList.GetMapGameObject().SetMineralStorage(-heroPrice);
+			
 		}
 	}
 
@@ -72,7 +72,7 @@ public class UnitCreater : MonoBehaviour
 		GameObject unitProduceObject = Instantiate(prefabsLoad) as GameObject;
 		if (unitProduceObject == null) return;
 
-
+		
 
 
 		unitProduceObject.transform.parent = this.transform;
@@ -81,20 +81,41 @@ public class UnitCreater : MonoBehaviour
 		Creature_p creatureScript = unitProduceObject.transform.GetComponent<Creature_p>();
 		if (creatureScript == null) return;
 
+		int childCount = unitProduceObject.transform.GetChildCount();
+		if (childCount == 4)
+		{
+			GameObject hpobject = unitProduceObject.transform.GetChild(3).transform.gameObject;
+			if (hpobject == null) return;
+
+			Slider HpBar = hpobject.transform.GetComponent<Slider>();
+			if (HpBar == null) return;
+
+			HpBar.maxValue = hp;
+			HpBar.value = HpBar.maxValue;
+		}
+
+
+	
+
+
+
 		switch (unitType)
 		{
 			case "Hero":
+				
 				creatureScript.SetUniqueIndex(unique_id);
 				creatureScript.SetCreatureType(miniontype);
 				creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
 				creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
 				creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
 				creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
+
 				
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitHP(hp);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttack(attack);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitAttackSpeed(attackSpeed);
 				unitProduceObject.GetComponent<HeroUnit_c>().SetUserUnitMoveSpeed(moveSpeed);
+
 				m_objectList.GetUnitGameObject().SetUnitGameObject(unique_id, ref unitProduceObject);
 				break;
 
