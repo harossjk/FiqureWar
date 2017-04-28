@@ -4,16 +4,6 @@ using System.Collections.Generic;
 
 public class m_MapGameObject :MonoBehaviour {
 
-	//private static m_MapGameObject m_mapGameObject = null;
-	//public static m_MapGameObject GetInstance()
-	//{
-	//	if (m_mapGameObject == null)
-	//	{
-	//		m_mapGameObject = new m_MapGameObject();
-	//	}
-	//	return m_mapGameObject;
-	//}
-
 	#region map game object list
 	private Dictionary<int, GameObject> m_mapGameObjectList = new Dictionary<int, GameObject>();
 	public GameObject GetMapGameObject(int unique_id)
@@ -100,7 +90,6 @@ public class m_MapGameObject :MonoBehaviour {
 	private int MineralStorage = 100;
 	public void SetMineralStorage(int Mineral)
 	{
-	//	Debug.Log(MineralStorage+"맵 게임 오브젝트 미네랄 스토리지");
 		MineralStorage += Mineral;
 	}
 

@@ -30,7 +30,7 @@ public class UnitCreater : MonoBehaviour
 		int heroPrice = m_unitPrice.GetHeroPrice();
 		if (m_objectList.GetMapGameObject().GetMineralStorage() >= heroPrice)
 		{
-			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 0, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
+			UnitObjectCreate("User_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 1, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_USER);
 			m_objectList.GetMapGameObject().SetMineralStorage(-heroPrice);
 			
 		}
@@ -38,7 +38,7 @@ public class UnitCreater : MonoBehaviour
 
 	public void enemyCreateUnit()
 	{
-		UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 1, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
+		UnitObjectCreate("Enemy_Unit", UniqueIdIndexGenerator(), "Hero", 1000, 0, 100.0f, 100.0f, CommonTypes.MinionTeam.MINION_TEAM_ENEMY);
 	}
 	public void scvCreateUnit()
 	{
@@ -72,9 +72,6 @@ public class UnitCreater : MonoBehaviour
 		GameObject unitProduceObject = Instantiate(prefabsLoad) as GameObject;
 		if (unitProduceObject == null) return;
 
-		
-
-
 		unitProduceObject.transform.parent = this.transform;
 		unitProduceObject.name = prefabsName + "_" + unique_id;
 
@@ -82,7 +79,8 @@ public class UnitCreater : MonoBehaviour
 		if (creatureScript == null) return;
 
 		int childCount = unitProduceObject.transform.GetChildCount();
-		if (childCount == 4)
+
+	    if (childCount == 4)
 		{
 			GameObject hpobject = unitProduceObject.transform.GetChild(3).transform.gameObject;
 			if (hpobject == null) return;
@@ -94,11 +92,6 @@ public class UnitCreater : MonoBehaviour
 			HpBar.value = HpBar.maxValue;
 		}
 
-
-	
-
-
-
 		switch (unitType)
 		{
 			case "Hero":
@@ -107,7 +100,7 @@ public class UnitCreater : MonoBehaviour
 				creatureScript.SetCreatureType(miniontype);
 				creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PLAY);
 				creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
-				creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+				//creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
 				creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
 
 				
@@ -135,7 +128,7 @@ public class UnitCreater : MonoBehaviour
 				creatureScript.SetCreatureType(miniontype);
 				creatureScript.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_SCV_NONE);
 				creatureScript.SetAttackType(CommonTypes.AttackType.ATTACK_TYPE_NONE);
-				creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
+				//creatureScript.SetCollisionType(CommonTypes.CollisionType.COLLISION_TYPE_NONE);
 				creatureScript.SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
 				break;
 		}

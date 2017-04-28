@@ -45,15 +45,6 @@ public class CommonTypes {
 		ATTACK_TYPE_MAX,
 	}
 
-
-	public enum CollisionType
-	{
-		COLLISION_TYPE_NONE,
-		COLLISION_TYPE_SIGHTCOLLISION,
-		COLLISION_TYPE_RANGECOLLISION,
-		COLLISION_TYPE_MAX,
-	}
-
 	public enum GameStatusType
 	{
 		GAMESTATUS_TYPE_NONE,
@@ -61,5 +52,12 @@ public class CommonTypes {
 		GAMESTATUS_TYPE_RESUME,
 		GAMESTATUS_TYPE_MAX,
 	}
+
+
+
+
+
+
+
 
 }

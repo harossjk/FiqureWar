@@ -115,7 +115,6 @@ public class Creature_p : MonoBehaviour
 	}
 	#endregion
 
-
 	#region waypoint 
 	private int m_UsercurWayPointIndex = -1;
 
@@ -154,16 +153,16 @@ public class Creature_p : MonoBehaviour
 		return m_StatusType;
 	}
 
-	private CommonTypes.CollisionType m_CollisionType;
-
-	public void SetCollisionType(CommonTypes.CollisionType type)
-	{
-		m_CollisionType = type;
-	}
-	public CommonTypes.CollisionType GetCollisionType()
-	{
-		return m_CollisionType;
-	}
+	//private CommonTypes.CollisionType m_CollisionType;
+	//
+	//public void SetCollisionType(CommonTypes.CollisionType type)
+	//{
+	//	m_CollisionType = type;
+	//}
+	//public CommonTypes.CollisionType GetCollisionType()
+	//{
+	//	return m_CollisionType;
+	//}
 
 	private CommonTypes.GameStatusType m_gameStatusType;
 	
