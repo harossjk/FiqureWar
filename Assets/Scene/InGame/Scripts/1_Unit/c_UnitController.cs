@@ -7,14 +7,17 @@ public class c_UnitController : MonoBehaviour
 {
 	private c_ControllerList c_controllerList;
 	private m_ObjectList m_objectList;
+
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
 	private const int HoldZ = -100;
 	private GameObject m_wayPoint;
 	private const int Center = 5;
 
+
 	private int m_calHP = 0;
 	private int m_ListLastNum = 0;
+	private Sight_Collider_Check sightCollsion;
 
 	public void Start()
 	{
@@ -29,36 +32,91 @@ public class c_UnitController : MonoBehaviour
 
 		m_unitType = m_unitObject.transform.GetComponent<Creature_p>();
 		if (m_unitType == null) return;
+
+		sightCollsion = m_unitObject.transform.FindChild("0_Sight").GetComponent<Sight_Collider_Check>();
+		if (sightCollsion == null) return;
 	}
 
 	// Update is called once per frame
 	public void Update()
 	{
+		//nomal waypoint move 
+		UnitToWayPointMove();
+		First_SightToRangeMove();
+	}
+
+	private void UnitToWayPointMove()
+	{
 		if (m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PLAY))
 		{
-			UnitWayPointMove();
-		}
-		else if(m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
-		&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE))
-		{
-			UnitSightMove(m_unitType.GetCreatureType());
-		}
-		else if(m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
-		&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_SIGHTMOVE))
-		{
-			UnitSightMove(m_unitType.GetCreatureType());
-		}
-		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
-		&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE))
-		{
-			Attack(m_unitType.GetCreatureType());
-		}
-		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY)
-		&& m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_RANGEMOVE))
-		{
-			Attack(m_unitType.GetCreatureType());
+			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
+			{
+				int curWayPointIndex = m_unitObject.GetComponent<Creature_p>().GetUserCurWayPointIndex();
+
+				if (curWayPointIndex == -1)
+				{
+					curWayPointIndex++;
+					m_unitObject.GetComponent<Creature_p>().SetUserWayPointIndex(curWayPointIndex);
+				}
+				m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(curWayPointIndex);
+				if (m_wayPoint == null) return;
+			}
+			else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+			{
+				int Enemy_curWayPointIndex = m_unitObject.GetComponent<Creature_p>().GetEnemyCurWayPointIndex();
+
+				if (Enemy_curWayPointIndex == 4)
+				{
+					Enemy_curWayPointIndex--;
+					m_unitObject.GetComponent<Creature_p>().SetEnemyWayPointIndex(Enemy_curWayPointIndex);
+				}
+				m_wayPoint = m_objectList.GetMapGameObject().GetWayPoint(Enemy_curWayPointIndex);
+				if (m_wayPoint == null) return;
+			}
+			Vector3 targetPos = new Vector3(m_wayPoint.transform.position.x, m_wayPoint.transform.position.y, HoldZ);
+			Moving(targetPos);
 		}
 	}
+	private bool First_SightToRangeMove()
+	{
+		if (m_unitType.GetStatusType().Equals(CommonTypes.StatusType.STATUS_TYPE_PAUSE)
+		&& sightCollsion.First_SightColliderCheck())
+		{
+			List<Transform> sightList = null;
+			const int arrayFirstIndex = 0;
+
+			if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
+			{
+				sightList = sightCollsion.GetUserSightList();
+				Vector3 targetPos = sightList[arrayFirstIndex].transform.position;
+				Moving(targetPos);
+				return true;
+			}
+			else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY))
+			{
+				sightList = sightCollsion.GetEnemySightList();
+				Vector3 targetPos = sightList[arrayFirstIndex].transform.position;
+				Moving(targetPos);
+				return true;
+			}
+		}
+
+			
+
+
+		return true;
+	}
+	private void Moving(Vector3 targetPos)
+	{
+		Vector3 prevTargetPos = new Vector3(targetPos.x, targetPos.y, HoldZ);
+		float currentSpeed = m_unitObject.GetComponent<HeroUnit_c>().GetUserUnitMoveSpeed();
+		Vector3 deltaPostion = Vector3.MoveTowards(m_unitObject.transform.position, prevTargetPos, Time.deltaTime * currentSpeed);
+		m_unitObject.transform.position = deltaPostion;
+	}
+
+
+
+	/*
 	private void UnitWayPointMove()
 	{
 		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER)
@@ -267,7 +325,7 @@ public class c_UnitController : MonoBehaviour
 				kv.Value.gameObject.GetComponent<Creature_p>().SetGameStatusType(CommonTypes.GameStatusType.GAMESTATUS_TYPE_NONE);
 			}
 		}
-		*/
+		
 	}
 
 	private bool ListNullOrValueCheck(List<Transform> colObjList)
@@ -282,5 +340,6 @@ public class c_UnitController : MonoBehaviour
 		}
 		return true;
 	}
+	*/
 }
 

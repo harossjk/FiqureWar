@@ -9,42 +9,78 @@ public class Sight_Collider_Check : MonoBehaviour
 	private Creature_p m_unitType;
 	private const int HoldZ = -100;
 
+	public bool m_Isplayer = false;
+
+
 	private List<Transform> m_EnemySighttList = new List<Transform>();
-	public List<Transform> GetEnemyList()
+	public List<Transform> GetEnemySightList()
 	{
 		return m_EnemySighttList;
 	}
-
-	public void DeletEneyList(int index)
+	public void SightDeletEnemy(int index)
 	{
 		m_EnemySighttList.RemoveAt(index);
 	}
 
 	private List<Transform> m_UserSightList = new List<Transform>();
-	public List<Transform> GetUserList()
+	public List<Transform> GetUserSightList()
 	{
 		return m_UserSightList;
 	}
-	public void DeletUserList(int index)
+	public void SightDeletUser(int index)
 	{
 		m_UserSightList.RemoveAt(index);
 	}
 
+	private Collider m_colObj;
+
 	void Start()
 	{
 		c_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
+		if (c_controllerList == null) return;
 		m_unitObject = transform.parent.gameObject;
 		if (m_unitObject == null) return;
 		m_unitType = m_unitObject.transform.GetComponent<Creature_p>();
 		if (m_unitType == null) return;
-	
-		c_controllerList.GetEventController().OnCollisionEvent += SightCollisionEventCheck;
 	}
 
-	void OnTriggerEnter(Collider col)
+	void OnTriggerEnter(Collider other)
 	{
-		SightStatusType(col);
+		m_colObj = other;
+		if (m_colObj == null) return;
+		//충돌 객체와 현재 객체 같을때 (아군 과 아군이 부딧혔을때) 중복자리 위치 옮기기 로직
+
+		if (First_SightColliderCheck()){}
+
+		
 	}
+
+	public bool First_SightColliderCheck()
+	{
+		if (m_unitType == null|| m_colObj== null)
+		{
+			return false;
+		}
+		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER) && m_colObj.tag.Equals("Enemy_Sight"))
+		{
+			// Now is Object User
+			m_UserSightList.Add(m_colObj.transform.parent);
+			m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PAUSE);
+			return true;
+		}
+		else if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_ENEMY) && m_colObj.tag.Equals("User_Sight"))
+		{
+			// Now is Object Enmey
+			m_EnemySighttList.Add(m_colObj.transform.parent);
+			m_unitType.SetStatusType(CommonTypes.StatusType.STATUS_TYPE_PAUSE);
+			return true;
+		}
+
+		return true;
+	}
+
+	/*
+
 
 	//Type setting function that moves the unit from  sight to range
 	private void SightStatusType(Collider col)
@@ -116,5 +152,6 @@ public class Sight_Collider_Check : MonoBehaviour
 	{
 		c_controllerList.GetEventController().OnCollisionEvent -= SightCollisionEventCheck;
 	}
-	
+	*/
+
 }

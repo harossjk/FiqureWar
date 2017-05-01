@@ -8,6 +8,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 	private GameObject m_unitObject;
 	private Creature_p m_unitType;
 
+	/*
 	private List<Transform> m_EnemyRangeList = new List<Transform>();
 	public List<Transform> GetEnemyList()
 	{
@@ -28,7 +29,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 	{
 		m_UserRangeList.RemoveAt(index);
 	}
-
+	*/
 	void Start()
 	{
 		c_controllerList = GameObject.Find("GameControllerManager").GetComponent<c_ControllerList>();
@@ -37,7 +38,7 @@ public class Range_Collider_Check  : MonoBehaviour{
 		m_unitType = m_unitObject.transform.GetComponent<Creature_p>();
 		if (m_unitObject == null) return;
 
-		c_controllerList.GetEventController().OnCollisionEvent += RangeCollisionEventCheck;
+		//c_controllerList.GetEventController().OnCollisionEvent += RangeCollisionEventCheck;
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -46,13 +47,10 @@ public class Range_Collider_Check  : MonoBehaviour{
 		{
 			WayPointMove(col);
 		}
-	
-		else if (col.gameObject.tag.Equals("Enemy_Player") || col.gameObject.tag.Equals("User_Player"))
-		{
-			RangeStatusType(col);
-		}
-	}
 
+		rangecheck(col);
+
+	}
 	private void WayPointMove(Collider col)
 	{
 		if (m_unitType.GetCreatureType().Equals(CommonTypes.MinionTeam.MINION_TEAM_USER))
@@ -67,10 +65,16 @@ public class Range_Collider_Check  : MonoBehaviour{
 		{
 			int enemyCurWayPoint = m_unitObject.GetComponent<Creature_p>().GetEnemyCurWayPointIndex();
 			enemyCurWayPoint--;
-			
 			m_unitObject.GetComponent<Creature_p>().SetEnemyWayPointIndex(enemyCurWayPoint);
 		}
 	}
+
+	private void rangecheck(Collider col)
+	{
+		
+	}
+
+	/*
 	private void RangeStatusType(Collider col)
 	{
 		//상태 타입이 sigth 일때도 범위 충돌 체클 해주어야한다.
@@ -115,4 +119,5 @@ public class Range_Collider_Check  : MonoBehaviour{
 	{
 		c_controllerList.GetEventController().OnCollisionEvent -= RangeCollisionEventCheck;
 	}
+	*/
 }
